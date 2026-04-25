@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bar Gemini: 搖擺調酒師</title>
+    <style>
+        :root { --gold: #f39c12; --bg: #0f0f0f; --card: #1a1a1a; }
+        body { font-family: 'PingFang TC', sans-serif; background: var(--bg); color: #eee; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        
+        .header { padding: 30px 20px; text-align: center; }
+        .header h1 { margin: 0; font-size: 1.8rem; color: var(--gold); letter-spacing: 3px; }
+        .header p { font-size: 0.8rem; color: #666; }
+
+        /* 篩選區 */
+        .controls { background: var(--card); width: 90%; max-width: 400px; padding: 15px; border-radius: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        select { background: #222; color: #fff; border: 1px solid #444; padding: 8px; border-radius: 8px; font-size: 0.85rem; }
+
+        /* 顯示卡片 */
+        #cocktail-card { width: 85%; max-width: 380px; min-height: 320px; background: linear-gradient(145deg, #1e1e1e, #111); border-radius: 25px; padding: 25px; box-sizing: border-box; position: relative; border: 1px solid #333; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .shaking { animation: shake 0.5s infinite; }
+        @keyframes shake { 0% {transform: rotate(0)} 25% {transform: rotate(5deg)} 50% {transform: rotate(-5deg)} 75% {transform: rotate(5deg)} 100% {transform: rotate(0)} }
+
+        .tag-row { margin-bottom: 10px; }
+        .tag { font-size: 0.7rem; padding: 3px 8px; border-radius: 4px; margin-right: 5px; color: #000; font-weight: bold; }
+        .tag-base { background: #3498db; }
+        .tag-strength { background: #e74c3c; }
+        .tag-flavor { background: #2ecc71; }
+
+        .name-zh { font-size: 1.6rem; margin: 10px 0 5px; color: var(--gold); }
+        .name-en { font-size: 0.9rem; color: #888; font-style: italic; margin-bottom: 20px; }
+        .ingredients { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; font-size: 0.9rem; text-align: left; }
+        .ingredients ul { margin: 5px 0; padding-left: 20px; }
+        
+        /* 按鈕 */
+        .btn-main { width: 85%; max-width: 380px; background: var(--gold); border: none; padding: 15px; border-radius: 50px; color: #000; font-size: 1.2rem; font-weight: bold; margin-top: 30px; cursor: pointer; box-shadow: 0 5px 20px rgba(243, 156, 18, 0.4); }
+        .hint { margin-top: 15px; font-size: 0.8rem; color: #555; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🍸 BAR GEMINI</h1>
+    <p>隨機抽取你的靈魂配方</p>
+</div>
+
+<div class="controls">
+    <select id="base">
+        <option value="all">所有基酒</option>
+        <option value="琴酒">琴酒</option>
+        <option value="威士忌">威士忌</option>
+        <option value="蘭姆酒">蘭姆酒</option>
+        <option value="龍舌蘭">龍舌蘭</option>
+        <option value="伏特加">伏特加</option>
+    </select>
+    <select id="strength">
+        <option value="all">酒精強度</option>
+        <option value="輕微">輕微 (Long Drink)</option>
+        <option value="中等">中等 (Balanced)</option>
+        <option value="強烈">強烈 (Spirit Forward)</option>
+    </select>
+</div>
+
+<div id="cocktail-card">
+    <div style="text-align: center; margin-top: 100px; color: #444;">
+        準備好搖晃手機，<br>或者點擊按鈕了嗎？
+    </div>
+</div>
+
+<button class="btn-main" onclick="roll()">SHAKE IT! 搖起來</button>
+<div class="hint">手機用戶可直接「搖晃手機」抽取</div>
+
+<script>
+    const database = [
+        { zh: "馬丁尼", en: "Martini", base: "琴酒", str: "強烈", flav: "辛辣", ing: ["琴酒 60ml", "辛口苦艾酒 10ml", "橄欖或檸檬皮"] },
+        { zh: "莫希托", en: "Mojito", base: "蘭姆酒", str: "輕微", flav: "清爽", ing: ["白蘭姆酒 45ml", "新鮮薄荷葉", "檸檬汁", "糖漿", "蘇打水"] },
+        { zh: "古典雞尾酒", en: "Old Fashioned", base: "威士忌", str: "強烈", flav: "甜中帶苦", ing: ["波本威士忌 45ml", "方糖 1塊", "安格仕苦精 2滴"] },
+        { zh: "長島冰茶", en: "Long Island Iced Tea", base: "伏特加", str: "強烈", flav: "酸甜", ing: ["五大基酒各 15ml", "橙酒 15ml", "檸檬汁", "可樂"] },
+        { zh: "亡靈復甦二號", en: "Corpse Reviver #2", base: "琴酒", str: "中等", flav: "酸爽", ing: ["琴酒 22ml", "麗葉酒 22ml", "橙酒 22ml", "檸檬汁 22ml", "艾碧斯 1噴"] },
+        { zh: "特基拉日出", en: "Tequila Sunrise", base: "龍舌蘭", str: "輕微", flav: "果香", ing: ["龍舌蘭 45ml", "柳橙汁 90ml", "紅石榴糖漿 15ml"] },
+        { zh: "教父", en: "God Father", base: "威士忌", str: "強烈", flav: "核果甜", ing: ["威士忌 35ml", "杏仁利口酒 35ml"] },
+        { zh: "琴蕾", en: "Gimlet", base: "琴酒", str: "中等", flav: "酸甜", ing: ["琴酒 45ml", "新鮮檸檬汁 15ml", "糖漿 15ml"] }
+    ];
+
+    function roll() {
+        const card = document.getElementById('cocktail-card');
+        const baseVal = document.getElementById('base').value;
+        const strVal = document.getElementById('strength').value;
+
+        // 篩選邏輯
+        const pool = database.filter(d => 
+            (baseVal === 'all' || d.base === baseVal) && 
+            (strVal === 'all' || d.str === strVal)
+        );
+
+        // 動畫效果
+        card.classList.add('shaking');
+        
+        setTimeout(() => {
+            card.classList.remove('shaking');
+            if (pool.length === 0) {
+                card.innerHTML = `<div style="margin-top:100px; text-align:center;">找不到符合的酒...<br>可能這家店沒這款。</div>`;
+                return;
+            }
+            const res = pool[Math.floor(Math.random() * pool.length)];
+            card.innerHTML = `
+                <div class="tag-row">
+                    <span class="tag tag-base">${res.base}</span>
+                    <span class="tag tag-strength">${res.str}</span>
+                    <span class="tag tag-flavor">${res.flav}</span>
+                </div>
+                <div class="name-zh">${res.zh}</div>
+                <div class="name-en">${res.en}</div>
+                <div class="ingredients">
+                    <strong>製作材料：</strong>
+                    <ul>${res.ing.map(i => `<li>${i}</li>`).join('')}</ul>
+                </div>
+            `;
+        }, 600);
+    }
+
+    // 搖晃偵測 (Device Motion API)
+    let lastUpdate = 0;
+    let last_x, last_y, last_z;
+    let SHAKE_THRESHOLD = 800;
+
+    function deviceMotionHandler(eventData) {
+        let acceleration = eventData.accelerationIncludingGravity;
+        let curTime = new Date().getTime();
+        if ((curTime - lastUpdate) > 100) {
+            let diffTime = curTime - lastUpdate;
+            lastUpdate = curTime;
+            let x = acceleration.x;
+            let y = acceleration.y;
+            let z = acceleration.z;
+            let speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+            if (speed > SHAKE_THRESHOLD) {
+                roll();
+            }
+            last_x = x; last_y = y; last_z = z;
+        }
+    }
+
+    // 請求權限（iOS 需要）
+    window.addEventListener('click', () => {
+        if (typeof DeviceMotionEvent.requestPermission === 'function') {
+            DeviceMotionEvent.requestPermission();
+        }
+        window.addEventListener('devicemotion', deviceMotionHandler, false);
+    }, { once: true });
+</script>
+
+</body>
+</html>
