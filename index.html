@@ -1,237 +1,37 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bar</title>
-    <style>
-        :root {
-            --gold: #d4af37;
-            --bg-home: #0a0a0a;
-            --text-home: #d4af37;
-        }
 
-        body, html {
-            margin: 0; padding: 0;
-            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
-            background: var(--bg-home);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* --- 導覽列：正中間水平對齊 --- */
-        nav {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            background: rgba(0,0,0,0.9);
-            padding: 20px 0;
-            position: fixed; /* 改為 fixed 確保捲動時都在 */
-            top: 0; width: 100%;
-            z-index: 1000;
-            border-bottom: 1px solid #222;
-        }
-        nav button {
-            background: none; border: 1px solid #444;
-            color: #888; padding: 8px 18px;
-            border-radius: 4px; cursor: pointer; font-weight: bold;
-            transition: 0.3s; font-size: 0.85rem; letter-spacing: 1px;
-        }
-        nav button.active { border-color: var(--gold); color: var(--gold); }
-
-        /* --- 分頁與淡入動畫 --- */
-        .page { 
-            display: none; 
-            flex-direction: column; 
-            align-items: center; 
-            padding: 100px 20px 40px; /* 增加頂部間距給 nav */
-            min-height: 100vh; 
-            box-sizing: border-box; 
-            opacity: 0; 
-            transition: opacity 0.6s ease-in-out; 
-        }
-        .page.active { display: flex; opacity: 1; }
-
-        /* --- 首頁樣式 --- */
-        #home-page { text-align: center; color: var(--text-home); }
-        .home-title { 
-            font-size: 2.5rem; margin-top: 15vh; letter-spacing: 8px; 
-            font-weight: 300; border-bottom: 1px solid var(--gold);
-            padding-bottom: 10px; display: inline-block;
-        }
-        .special-box {
-            margin-top: 40px; padding: 20px;
-            border: 1px solid #222; border-radius: 10px;
-            max-width: 300px; background: rgba(255,255,255,0.02);
-        }
-
-        /* --- 酒譜樣式 --- */
-        #recipe-page { background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%); color: #eee; }
-        .luxury-card {
-            background: #111; border: 1px solid var(--gold);
-            padding: 30px; width: 90%; max-width: 400px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.8); text-align: center;
-        }
-        .recipe-btn { 
-            background: transparent; color: var(--gold); border: 1px solid var(--gold); 
-            padding: 12px 40px; margin-top: 30px; cursor: pointer; transition: 0.3s;
-        }
-        .recipe-btn:hover { background: var(--gold); color: black; }
-
-        /* --- 酒令樣式 --- */
-        #game-page { background: #f8f9fa; color: #1d3557; }
-        .game-card {
-            background: white; border: 2px solid #1d3557;
-            padding: 50px 20px; width: 85%; max-width: 380px;
-            border-radius: 10px; box-shadow: 8px 8px 0px #a8dadc;
-            text-align: center; margin: 30px 0; font-size: 1.4rem; font-weight: 800;
-        }
-        .game-btn { 
-            background: #e63946; color: white; border: none; 
-            padding: 15px 40px; border-radius: 50px; font-size: 1.1rem; cursor: pointer;
-            box-shadow: 0 4px 0px #b91c1c;
-        }
-
-        @keyframes shake { 0%, 100% {transform: translateX(0)} 25% {transform: translateX(8px)} 75% {transform: translateX(-8px)} }
-        .shaking { animation: shake 0.4s ease-in-out; }
-    </style>
-</head>
-<body>
-
-    <nav>
-        <button id="nav-home" class="active" onclick="showPage('home-page')">HOME</button>
-        <button id="nav-recipe" onclick="showPage('recipe-page')">RECIPE</button>
-        <button id="nav-game" onclick="showPage('game-page')">PARTY</button>
-    </nav>
-
-    <section id="home-page" class="page active">
-        <h1 class="home-title">BAR</h1>
-        <div class="special-box">
-            <p style="font-size: 0.7rem; color: #555; letter-spacing: 2px;">MANAGER'S PICK / 今日推薦</p>
-            <div id="daily-special" style="font-size: 1.2rem; margin: 10px 0; font-weight: bold;">---</div>
-            <p id="daily-desc" style="font-size: 0.8rem; color: #888;">點擊開始探索</p>
-        </div>
-    </section>
-
-    <section id="recipe-page" class="page">
-        <div id="recipe-display" class="luxury-card">
-            <p style="color: #444; font-style: italic;">Tap below to reveal a cocktail.</p>
-        </div>
-        <button class="recipe-btn" onclick="rollRecipe()">GENERATE</button>
-    </section>
-
-    <section id="game-page" class="page">
-        <h1 style="color: #e63946; border-bottom: 3px solid #1d3557;">DRINK OR DARE</h1>
-        <div id="game-display" class="game-card">ARE YOU READY?</div>
-        <button class="game-btn" onclick="rollGame()">PUSH LUCK</button>
-    </section>
-
-    <script>
-        const cocktails = [
-        // --- 琴酒 Gin (6杯) ---
-        { zh: "馬丁尼", en: "Martini", base: "琴酒", str: "強烈", flav: "辛辣", ing: ["琴酒 60ml", "辛口苦艾酒 10ml", "橄欖或檸檬皮"] },
-        { zh: "尼格羅尼", en: "Negroni", base: "琴酒", str: "強烈", flav: "苦甜", ing: ["琴酒 30ml", "金巴利 30ml", "紅苦艾酒 30ml"] },
-        { zh: "琴蕾", en: "Gimlet", base: "琴酒", str: "中等", flav: "酸甜", ing: ["琴酒 45ml", "新鮮檸檬汁 15ml", "糖漿 15ml"] },
-        { zh: "白色佳人", en: "White Lady", base: "琴酒", str: "中等", flav: "酸甜", ing: ["琴酒 40ml", "橙酒 30ml", "檸檬汁 20ml"] },
-        { zh: "臨別一語", en: "Last Word", base: "琴酒", str: "強烈", flav: "草本", ing: ["琴酒 22.5ml", "夏翠絲綠酒 22.5ml", "黑櫻桃酒 22.5ml", "萊姆汁 22.5ml"] },
-        { zh: "琴費斯", en: "Gin Fizz", base: "琴酒", str: "輕微", flav: "清爽", ing: ["琴酒 45ml", "檸檬汁 30ml", "糖漿 10ml", "蘇打水 滿杯"] },
-
-        // --- 威士忌 Whiskey (6杯) ---
-        { zh: "古典", en: "Old Fashioned", base: "威士忌", str: "強烈", flav: "甜中帶苦", ing: ["波本威士忌 45ml", "方糖 1塊", "安格仕苦精 2滴"] },
-        { zh: "威士忌酸酒", en: "Whiskey Sour", base: "威士忌", str: "中等", flav: "酸甜", ing: ["威士忌 45ml", "檸檬汁 30ml", "糖漿 15ml", "蛋白 (可選)"] },
-        { zh: "曼哈頓", en: "Manhattan", base: "威士忌", str: "強烈", flav: "濃郁", ing: ["裸麥威士忌 50ml", "紅苦艾酒 20ml", "安格仕苦精 2滴"] },
-        { zh: "盤尼西林", en: "Penicillin", base: "威士忌", str: "中等", flav: "煙燻辛辣", ing: ["調和威士忌 60ml", "檸檬汁 22.5ml", "蜂蜜薑汁糖漿 22.5ml", "艾雷島威士忌 噴霧"] },
-        { zh: "羅伯羅伊", en: "Rob Roy", base: "威士忌", str: "強烈", flav: "濃郁苦甜", ing: ["蘇格蘭威士忌 45ml", "紅苦艾酒 22ml", "安格仕苦精 2滴"] },
-        { zh: "薄荷茱莉普", en: "Mint Julep", base: "威士忌", str: "中等", flav: "清爽草本", ing: ["波本威士忌 60ml", "新鮮薄荷葉 8-10片", "方糖 1塊"] },
-
-        // --- 蘭姆酒 Rum (6杯) ---
-        { zh: "莫希托", en: "Mojito", base: "蘭姆酒", str: "輕微", flav: "清爽", ing: ["白蘭姆酒 45ml", "新鮮薄荷葉", "檸檬汁", "糖漿", "蘇打水"] },
-        { zh: "黛綺莉", en: "Daiquiri", base: "蘭姆酒", str: "中等", flav: "酸甜", ing: ["白蘭姆酒 60ml", "萊姆汁 22.5ml", "糖漿 22.5ml"] },
-        { zh: "月黑風高", en: "Dark 'N' Stormy", base: "蘭姆酒", str: "中等", flav: "辛辣清爽", ing: ["黑蘭姆酒 60ml", "薑汁啤酒 滿杯", "萊姆角"] },
-        { zh: "邁泰", en: "Mai Tai", base: "蘭姆酒", str: "強烈", flav: "果香堅果", ing: ["黑蘭姆酒 30ml", "白蘭姆酒 30ml", "橙酒 15ml", "杏仁糖漿 15ml"] },
-        { zh: "自由古巴", en: "Cuba Libre", base: "蘭姆酒", str: "輕微", flav: "清爽果香", ing: ["蘭姆酒 50ml", "可樂 滿杯", "萊姆角"] },
-        { zh: "Piña Colada", en: "Piña Colada", base: "蘭姆酒", str: "輕微", flav: "熱帶甜感", ing: ["蘭姆酒 50ml", "鳳梨汁 50ml", "椰奶 50ml"] },
-
-        // --- 龍舌蘭 Tequila (6杯) ---
-        { zh: "瑪格麗特", en: "Margarita", base: "龍舌蘭", str: "中等", flav: "酸鹹", ing: ["龍舌蘭 50ml", "橙酒 20ml", "檸檬汁 15ml"] },
-        { zh: "特基拉日出", en: "Tequila Sunrise", base: "龍舌蘭", str: "輕微", flav: "果香", ing: ["龍舌蘭 45ml", "柳橙汁 90ml", "紅石榴糖漿 15ml"] },
-        { zh: "帕羅瑪", en: "Paloma", base: "龍舌蘭", str: "輕微", flav: "葡萄柚酸甜", ing: ["龍舌蘭 50ml", "葡萄柚蘇打 滿杯", "萊姆汁", "鹽圈"] },
-        { zh: "龍舌蘭馬丁尼", en: "Tequini", base: "龍舌蘭", str: "強烈", flav: "辛辣", ing: ["龍舌蘭 60ml", "辛口苦艾酒 15ml", "苦精 1滴"] },
-        { zh: "鬥牛士", en: "Matador", base: "龍舌蘭", str: "輕微", flav: "清爽酸甜", ing: ["龍舌蘭 30ml", "鳳梨汁 60ml", "萊姆汁 15ml"] },
-        { zh: "神之使者", en: "El Diablo", base: "龍舌蘭", str: "中等", flav: "薑汁果香", ing: ["龍舌蘭 45ml", "黑醋栗利口酒 15ml", "萊姆汁", "薑汁啤酒"] },
-
-        // --- 伏特加 Vodka (6杯) ---
-        { zh: "莫斯科騾子", en: "Moscow Mule", base: "伏特加", str: "輕微", flav: "薑汁辛辣", ing: ["伏特加 45ml", "萊姆汁 15ml", "薑汁啤酒 滿杯"] },
-        { zh: "濃縮咖啡馬丁尼", en: "Espresso Martini", base: "伏特加", str: "中等", flav: "咖啡濃郁", ing: ["伏特加 50ml", "濃縮咖啡 30ml", "咖啡利口酒 15ml"] },
-        { zh: "長島冰茶", en: "Long Island Iced Tea", base: "伏特加", str: "強烈", flav: "酸甜", ing: ["五大基酒各 15ml", "橙酒 15ml", "檸檬汁", "可樂"] },
-        { zh: "柯夢波丹", en: "Cosmopolitan", base: "伏特加", str: "中等", flav: "果香酸甜", ing: ["伏特加 40ml", "橙酒 15ml", "蔓越莓汁 30ml", "檸檬汁"] },
-        { zh: "海風", en: "Sea Breeze", base: "伏特加", str: "輕微", flav: "清爽果香", ing: ["伏特加 40ml", "蔓越莓汁 120ml", "葡萄柚汁 30ml"] },
-        { zh: "血腥瑪麗", en: "Bloody Mary", base: "伏特加", str: "中等", flav: "鹹辣鮮味", ing: ["伏特加 45ml", "番茄汁 90ml", "檸檬汁", "辣醬/黑胡椒"] },
-
-        // --- 白蘭地 Brandy (6杯) ---
-        { zh: "側車", en: "Sidecar", base: "白蘭地", str: "中等", flav: "酸甜", ing: ["白蘭地 50ml", "橙酒 20ml", "檸檬汁 20ml"] },
-        { zh: "亞歷山大", en: "Alexander", base: "白蘭地", str: "中等", flav: "奶香甜感", ing: ["白蘭地 30ml", "深色可可酒 30ml", "鮮奶油 30ml"] },
-        { zh: "薩澤拉克", en: "Sazerac", base: "白蘭地", str: "強烈", flav: "草本藥草", ing: ["白蘭地 60ml", "方糖", "裴喬氏苦精", "艾碧斯 潤杯"] },
-        { zh: "馬蹄", en: "Horse's Neck", base: "白蘭地", str: "輕微", flav: "清爽薑汁", ing: ["白蘭地 40ml", "薑汁汽水 滿杯", "長條螺旋檸檬皮"] },
-        { zh: "香榭麗舍", en: "Champs-Élysées", base: "白蘭地", str: "強烈", flav: "草本", ing: ["白蘭地 60ml", "夏翠絲黃酒 15ml", "檸檬汁", "苦精"] },
-        { zh: "維修站", en: "Between the Sheets", base: "白蘭地", str: "強烈", flav: "紮實酸甜", ing: ["白蘭地 30ml", "白蘭姆酒 30ml", "橙酒 30ml", "檸檬汁"] }
-    ];
+    // --- 白蘭地 Brandy ---
+    { zh: "側車", en: "Sidecar", base: "白蘭地", str: "中等", flav: "酸甜", ing: ["白蘭地 50ml", "橙酒 20ml", "檸檬汁 20ml"], tip: "名字來自一戰時期常見的摩托側車，是白蘭地基酒中最具代表性的酸甜平衡之作。" },
+    { zh: "亞歷山大", en: "Alexander", base: "白蘭地", str: "中等", flav: "奶香甜感", ing: ["白蘭地 30ml", "深色可可酒 30ml", "鮮奶油 30ml"], tip: "就像一杯大人版的巧克力牛奶，這杯甜點酒是約會收尾的最佳驚喜。" },
+    { zh: "薩澤拉克", en: "Sazerac", base: "白蘭地", str: "強烈", flav: "草本藥草", ing: ["白蘭地 60ml", "方糖", "裴喬氏苦精", "艾碧斯 潤杯"], tip: "源自紐奧良，據說是世界上第一款有明確記載名稱的雞尾酒。" },
+    { zh: "馬蹄", en: "Horse's Neck", base: "白蘭地", str: "輕微", flav: "清爽薑汁", ing: ["白蘭地 40ml", "薑汁汽水 滿杯", "長條螺旋檸檬皮"], tip: "亮點在於那條長到誇張的螺旋檸檬皮，看起來就像馬的脖子而得名。" },
+    { zh: "香榭麗舍", en: "Champs-Élysées", base: "白蘭地", str: "強烈", flav: "草本", ing: ["白蘭地 60ml", "夏翠絲黃酒 15ml", "檸檬汁", "苦精"], tip: "名字聽起來非常浪漫，白蘭地的果香與黃酒的草本氣息交織成巴黎夜晚的感覺。" },
+    { zh: "床第之間", en: "Between the Sheets", base: "白蘭地", str: "強烈", flav: "紮實酸甜", ing: ["白蘭地 30ml", "白蘭姆酒 30ml", "橙酒 30ml"], tip: "名字充滿性暗示，它是側車的加強版，喝完會想去躺著。" }
+];
 
 
-        const commands = ["現場選一人喝 1 杯", "左右兩邊乾杯", "電量最低的人喝", "不准說「你我他」，說錯喝", "跟對面的人喝交杯酒","打電話跟家人說我愛你","直接喝shot了啦","算你好運（其他人全喝）"];
+        const commands = ["現場選一人喝 1 杯", "左右兩邊乾杯", "電量最低的人喝", "不准說「你我他」，說錯喝", "跟對面的人喝交杯酒", "全場最清醒的人喝","打電話給家人說我愛你","算你好運（其他人全喝）"];
 
-        // 初始化：隨機推薦一杯
         window.onload = () => {
-            const special = cocktails[Math.floor(Math.random() * cocktails.length)];
-            document.getElementById('daily-special').innerText = special.zh;special.en;
-            document.getElementById('daily-desc').innerText = `推薦基酒：${special.base}`;
+            const special = database[Math.floor(Math.random() * database.length)];
+            document.getElementById('daily-special').innerText = special.zh;
         };
+            document.getElementById('daily-special-en').innerText = special.en;
 
         function showPage(pageId) {
             const pages = document.querySelectorAll('.page');
             const navs = document.querySelectorAll('nav button');
-            
-            pages.forEach(p => {
-                p.classList.remove('active');
-                p.style.display = 'none'; // 先隱藏
-            });
-
+            pages.forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
             const target = document.getElementById(pageId);
             target.style.display = 'flex';
-            
-            // 強制瀏覽器重繪，以觸發 Opacity 動畫
-            setTimeout(() => {
-                target.classList.add('active');
-            }, 10);
-
+            setTimeout(() => { target.classList.add('active'); }, 10);
             navs.forEach(b => b.classList.remove('active'));
-            document.getElementById('nav-' + pageId.split('-')[0]).classList.add('active');
+            document.getElementById('nav-' + (pageId === 'game-page' ? 'party' : pageId.split('-')[0])).classList.add('active');
         }
 
-        function rollRecipe() {
+                function rollRecipe() {
             const display = document.getElementById('recipe-display');
             display.classList.add('shaking');
             setTimeout(() => {
                 display.classList.remove('shaking');
-                const res = cocktails[Math.floor(Math.random() * cocktails.length)];
+                const res = database[Math.floor(Math.random() * database.length)];
                 display.innerHTML = `
-                    <div style="font-size:0.7rem; color:var(--gold); letter-spacing:2px; margin-bottom:15px;">${res.base}</div>
-                    <div style="font-size:1.8rem; font-weight:bold; color:white; border-bottom:1px solid #333; padding-bottom:10px; margin-bottom:15px;">${res.zh}</div>
-                    <div style="text-align:left; font-size:0.9rem;">
-                        ${res.ing.map(i => `<div style="color:#bbb; margin:5px 0;">• ${i}</div>`).join('')}
-                    </div>
-                `;
-            }, 400);
-        }
-
-        function rollGame() {
-            const display = document.getElementById('game-display');
-            display.innerHTML = "DRAWING...";
-            setTimeout(() => {
-                display.innerHTML = commands[Math.floor(Math.random() * commands.length)];
-            }, 300);
-        }
-    </script>
-</body>
-</html>
