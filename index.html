@@ -110,7 +110,7 @@
         <div class="special-box">
             <p style="font-size: 0.7rem; color: #555; letter-spacing: 2px;">MANAGER'S PICK / 今日推薦</p>
             <div id="daily-special" style="font-size: 1.2rem; margin: 10px 0; font-weight: bold;">---</div>
-            <p id="daily-desc" style="font-size: 0.8rem; color: #888;">點擊導航欄開始探索</p>
+            <p id="daily-desc" style="font-size: 0.8rem; color: #888;">點擊開始探索</p>
         </div>
     </section>
 
@@ -184,7 +184,7 @@
         // 初始化：隨機推薦一杯
         window.onload = () => {
             const special = cocktails[Math.floor(Math.random() * cocktails.length)];
-            document.getElementById('daily-special').innerText = special.zh;
+            document.getElementById('daily-special').innerText = special.zh;special.en;
             document.getElementById('daily-desc').innerText = `推薦基酒：${special.base}`;
         };
 
