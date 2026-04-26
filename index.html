@@ -13,32 +13,49 @@
     <style>
         :root { --gold: #d4af37; --bg-dark: #000000; --card-bg: #1a1a1a; --inner-bg: #262626; }
         body, html { margin: 0; padding: 0; font-family: 'PingFang TC', sans-serif; background: var(--bg-dark); color: #eee; min-height: 100vh; -webkit-tap-highlight-color: transparent; }
+        
+        /* --- 導覽列 --- */
         nav { display: flex; justify-content: center; gap: 15px; background: rgba(0,0,0,0.95); padding: 20px 0; position: fixed; top: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #222; }
-        nav button { background: none; border: 1px solid #444; color: #888; padding: 8px 22px; border-radius: 4px; font-weight: bold; font-size: 0.85rem; letter-spacing: 2px; }
+        nav button { background: none; border: 1px solid #444; color: #888; padding: 8px 22px; border-radius: 4px; font-weight: bold; font-size: 0.85rem; letter-spacing: 2px; transition: 0.3s; }
         nav button.active { border-color: var(--gold); color: var(--gold); }
+
         .page { display: none; flex-direction: column; align-items: center; padding: 100px 20px 40px; min-height: 100vh; box-sizing: border-box; opacity: 0; transition: opacity 0.4s; }
         .page.active { display: flex; opacity: 1; }
+
+        /* --- Recipe 卡片 (故事加強版) --- */
         .luxury-outer { border: 1px solid var(--gold); padding: 12px; width: 100%; max-width: 380px; margin: 10px auto; }
-        .luxury-inner { background: var(--card-bg); border-radius: 35px; padding: 25px; text-align: left; min-height: 500px; display: flex; flex-direction: column; }
+        .luxury-inner { background: var(--card-bg); border-radius: 35px; padding: 25px; text-align: left; min-height: 520px; display: flex; flex-direction: column; }
+        
         .tag-container { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px; }
         .tag { padding: 4px 10px; border-radius: 8px; font-size: 0.65rem; font-weight: bold; color: #000; }
         .tag-base { background: #5d9cec; } .tag-str { background: #ed5565; } .tag-flav { background: #a0d468; } .tag-meth { background: #ffce54; } .tag-glass { background: #ac92ec; }
-        .recipe-title-zh { color: var(--gold); font-size: 1.8rem; margin: 0; font-weight: bold; }
-        .recipe-title-en { color: #666; font-size: 0.85rem; font-style: italic; margin-bottom: 15px; }
-        .ing-box { background: var(--inner-bg); border-radius: 20px; padding: 15px; margin-bottom: 10px; }
-        .ing-list { list-style: none; padding: 0; margin: 0; color: #bbb; line-height: 1.6; font-size: 0.85rem; }
+        
+        .recipe-title-zh { color: var(--gold); font-size: 2rem; margin: 0; font-weight: bold; }
+        .recipe-title-en { color: #666; font-size: 0.9rem; font-style: italic; margin-bottom: 15px; }
+        
+        .ing-box { background: var(--inner-bg); border-radius: 20px; padding: 18px; margin-bottom: 15px; }
+        .ing-list { list-style: none; padding: 0; margin: 0; color: #bbb; line-height: 1.7; font-size: 0.9rem; }
         .ing-list li::before { content: "• "; color: var(--gold); margin-right: 8px; }
-        .tip-box { padding: 12px; border-left: 2px solid var(--gold); background: rgba(212, 175, 55, 0.05); font-size: 0.75rem; color: #999; font-style: italic; }
+        
+        /* Tip 區塊加大，給故事更多空間 */
+        .tip-box { 
+            padding: 15px; border-top: 1px solid rgba(212, 175, 55, 0.3); 
+            background: rgba(212, 175, 55, 0.03); border-radius: 0 0 20px 20px;
+            font-size: 0.85rem; color: #aaa; line-height: 1.5; font-style: italic;
+            position: relative;
+        }
+        .tip-box::before { content: "STORY"; display: block; font-size: 0.6rem; color: var(--gold); letter-spacing: 2px; margin-bottom: 5px; font-style: normal; }
+
+        /* --- Party 區塊 --- */
         .game-card { background: #1a1a1a; border: 2px solid var(--gold); padding: 40px 20px; width: 85%; max-width: 380px; border-radius: 20px; text-align: center; margin: 20px 0; font-size: 1.3rem; color: var(--gold); min-height: 120px; display: flex; align-items: center; justify-content: center; }
         .custom-input-area { width: 85%; max-width: 380px; display: none; flex-direction: column; gap: 10px; }
         .custom-input-area.show { display: flex; }
-        .cmd-list-container { background: #111; border-radius: 10px; padding: 10px; max-height: 180px; overflow-y: auto; }
-        .cmd-item { display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid #222; font-size: 0.8rem; }
-        .del-btn { color: #ed5565; background: none; border: none; }
-        .generate-btn, .game-btn { background: var(--gold); color: #000; border: none; padding: 15px 50px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        .mode-switch { display: flex; background: #222; border-radius: 50px; padding: 5px; margin-bottom: 15px; }
-        .mode-btn { background: none; border: none; color: #888; padding: 8px 15px; border-radius: 50px; font-size: 0.75rem; }
-        .mode-btn.active { background: var(--gold); color: #000; }
+        .cmd-list-container { background: #111; border-radius: 10px; padding: 10px; max-height: 180px; overflow-y: auto; margin: 10px 0; }
+        .cmd-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #222; font-size: 0.85rem; }
+        .del-btn { color: #ed5565; background: none; border: none; font-weight: bold; padding: 5px 10px; }
+
+        .generate-btn, .game-btn { background: var(--gold); color: #000; border: none; padding: 15px 60px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 10px; letter-spacing: 2px; }
+        
         @keyframes shake-anim { 0%, 100% {transform: translateX(0)} 20% {transform: translateX(10px)} 40% {transform: translateX(-10px)} }
         .shaking { animation: shake-anim 0.3s infinite; }
     </style>
@@ -51,78 +68,78 @@
     </nav>
 
     <section id="home-page" class="page active">
-        <h1 style="font-size: 3rem; color: var(--gold); margin-top: 10vh;">BAR 🍸</h1>
-        <div style="border: 1px solid #333; padding: 30px; border-radius: 20px; text-align: center;">
-            <p style="color: #666; font-size: 0.7rem;">DAILY SPECIAL</p>
-            <div id="ds-zh" style="font-size: 1.5rem; color: var(--gold); font-weight: bold;">---</div>
-            <p id="ds-en" style="color: #444; font-style: italic;">---</p>
+        <h1 style="font-size: 3.5rem; color: var(--gold); margin-top: 10vh; letter-spacing: 10px;">BAR 🍸</h1>
+        <div style="border: 1px solid #333; padding: 35px; border-radius: 25px; text-align: center; background: rgba(255,255,255,0.02);">
+            <p style="color: #666; font-size: 0.6rem; letter-spacing: 3px;">MANAGER'S CHOICE</p>
+            <div id="ds-zh" style="font-size: 1.8rem; color: var(--gold); font-weight: bold; margin: 10px 0;">---</div>
+            <p id="ds-en" style="color: #555; font-style: italic;">Wait for it...</p>
         </div>
     </section>
 
     <section id="recipe-page" class="page">
-        <div class="luxury-outer"><div id="recipe-display" class="luxury-inner"><div style="text-align:center;margin-top:180px;color:#444;">Shake to Draw</div></div></div>
+        <div class="luxury-outer"><div id="recipe-display" class="luxury-inner"><div style="text-align:center;margin-top:200px;color:#444;">Shake device to explore...</div></div></div>
         <button class="generate-btn" onclick="roll()">GENERATE</button>
     </section>
 
     <section id="game-page" class="page">
-        <div class="mode-switch">
-            <button id="m-def" class="mode-btn active" onclick="switchMode('default')">內建</button>
-            <button id="m-cus" class="mode-btn" onclick="switchMode('custom')">全自訂</button>
+        <div style="display:flex; background:#222; border-radius:50px; padding:5px; margin-bottom:20px;">
+            <button id="m-def" style="border:none; padding:8px 25px; border-radius:50px; font-size:0.8rem;" class="active" onclick="switchMode('default')">內建</button>
+            <button id="m-cus" style="border:none; padding:8px 25px; border-radius:50px; font-size:0.8rem;" onclick="switchMode('custom')">全自訂</button>
         </div>
-        <div id="game-display" class="game-card">Ready?</div>
+        <div id="game-display" class="game-card">Ready for Fun?</div>
         <button class="game-btn" onclick="rollGame()">DRAW</button>
         <div id="cus-area" class="custom-input-area">
-            <input type="text" id="cus-input" style="background:#222;border:1px solid #444;color:#fff;padding:10px;border-radius:5px;" placeholder="輸入指令...">
-            <button onclick="addCmd()" style="background:var(--gold);padding:8px;border-radius:5px;border:none;">新增</button>
+            <input type="text" id="cus-input" style="background:#222;border:1px solid #444;color:#fff;padding:12px;border-radius:10px;" placeholder="輸入大冒險指令...">
+            <button onclick="addCmd()" style="background:var(--gold);padding:10px;border-radius:10px;border:none;font-weight:bold;">新增到清單</button>
             <div id="cmd-list" class="cmd-list-container"></div>
-            <button onclick="clearAll()" style="color:#666;background:none;border:none;font-size:0.7rem;">清空所有</button>
+            <button onclick="clearAll()" style="color:#ed5565;background:none;border:none;font-size:0.75rem;margin-top:5px;">🗑️ 清空所有指令</button>
         </div>
     </section>
 
     <script>
         const database = [
             // Gin
-            {zh:"馬丁尼",en:"Martini",base:"琴酒",str:"強烈",flav:"辛辣",meth:"攪拌",glass:"馬丁尼杯",ing:["琴酒 60ml","苦艾酒 10ml"],tip:"雞尾酒之王，007愛喝。"},
-            {zh:"尼格羅尼",en:"Negroni",base:"琴酒",str:"強烈",flav:"苦甜",meth:"攪拌",glass:"古典杯",ing:["琴酒 30ml","金巴利 30ml","紅苦艾酒 30ml"],tip:"極致的苦甜平衡。"},
-            {zh:"琴蕾",en:"Gimlet",base:"琴酒",str:"中等",flav:"酸甜",meth:"搖盪",glass:"馬丁尼杯",ing:["琴酒 45ml","萊姆汁 15ml"],tip:"簡單考驗品質。"},
-            {zh:"白色佳人",en:"White Lady",base:"琴酒",str:"中等",flav:"酸甜",meth:"搖盪",glass:"馬丁尼杯",ing:["琴酒 40ml","橙酒 30ml","檸檬汁"],tip:"口感絲滑優雅。"},
-            {zh:"臨別一語",en:"Last Word",base:"琴酒",str:"強烈",flav:"草本",meth:"搖盪",glass:"馬丁尼杯",ing:["琴酒","綠夏翠絲","櫻桃酒","萊姆汁"],tip:"層次極其豐富。"},
-            {zh:"琴費斯",en:"Gin Fizz",base:"琴酒",str:"輕微",flav:"清爽",meth:"搖盪",glass:"高球杯",ing:["琴酒 45ml","蘇打水","檸檬汁"],tip:"夏日清爽首選。"},
+            {zh:"馬丁尼",en:"Martini",base:"琴酒",str:"強烈",flav:"辛辣",meth:"攪拌",glass:"馬丁尼杯",ing:["琴酒 60ml","辛口苦艾酒 10ml"],tip:"不僅007愛喝，就連英國前首相邱吉爾曾說：調馬丁尼時，只要對著法國方向鞠個躬（苦艾酒產地）就夠了。這是一杯屬於男人的剛毅。"},
+            {zh:"尼格羅尼",en:"Negroni",base:"琴酒",str:"強烈",flav:"苦甜",meth:"攪拌",glass:"古典杯",ing:["琴酒 30ml","金巴利 30ml","紅苦艾酒 30ml"],tip:"傳說尼格羅尼伯爵覺得美式咖啡太淡，要求加強琴酒。從此，這抹艷紅成了義大利紳士的優雅標配。"},
+            {zh:"琴蕾",en:"Gimlet",base:"琴酒",str:"中等",flav:"酸甜",meth:"搖盪",glass:"馬丁尼杯",ing:["琴酒 45ml","萊姆汁 15ml"],tip:"最初是為了讓水手預防壞血病而發明的。馬洛在《漫長的告別》中寫道：真正的琴蕾，就是琴酒配玫瑰牌萊姆汁。"},
+            {zh:"白色佳人",en:"White Lady",base:"琴酒",str:"中等",flav:"酸甜",meth:"搖盪",glass:"馬丁尼杯",ing:["琴酒 40ml","橙酒 30ml","檸檬汁"],tip:"調酒界的一抹月光。它純白、乾淨，卻有著橙酒與檸檬交織出的優雅層次，適合在微涼的深夜慢慢品嚐。"},
+            {zh:"臨別一語",en:"Last Word",base:"琴酒",str:"強烈",flav:"草本",meth:"搖盪",glass:"馬丁尼杯",ing:["琴酒","綠夏翠絲","黑櫻桃酒","萊姆汁"],tip:"消失多年後被西雅圖調酒師重現江湖。草本感極重，像是走入一場森林大火後的餘溫，極致平衡卻充滿挑釁。"},
+            {zh:"琴費斯",en:"Gin Fizz",base:"琴酒",str:"輕微",flav:"清爽",meth:"搖盪",glass:"高球杯",ing:["琴酒 45ml","蘇打水","檸檬汁"],tip:"夏日最完美的「升天」感。氣泡在舌尖炸裂，檸檬的酸香洗刷了琴酒的藥草味，是早晨與午後的絕佳救贖。"},
             // Whiskey
-            {zh:"古典",en:"Old Fashioned",base:"威士忌",str:"強烈",flav:"苦甜",meth:"攪拌",glass:"古典杯",ing:["波本威士忌 45ml","方糖","苦精"],tip:"最純粹的喝法。"},
-            {zh:"威士忌酸酒",en:"Whiskey Sour",base:"威士忌",str:"中等",flav:"酸甜",meth:"搖盪",glass:"古典杯",ing:["威士忌 45ml","檸檬汁","蛋白"],tip:"經典酸酒代表。"},
-            {zh:"曼哈頓",en:"Manhattan",base:"威士忌",str:"強烈",flav:"濃郁",meth:"攪拌",glass:"馬丁尼杯",ing:["裸麥威士忌","紅苦艾酒"],tip:"雞尾酒之后。"},
-            {zh:"盤尼西林",en:"Penicillin",base:"威士忌",str:"中等",flav:"煙燻",meth:"搖盪",glass:"古典杯",ing:["威士忌","檸檬汁","薑汁蜂蜜"],tip:"泥煤與薑的撞擊。"},
-            {zh:"羅伯羅伊",en:"Rob Roy",base:"威士忌",str:"強烈",flav:"濃郁",meth:"攪拌",glass:"馬丁尼杯",ing:["蘇格蘭威士忌","紅苦艾酒"],tip:"蘇格蘭版曼哈頓。"},
-            {zh:"薄荷茱莉普",en:"Mint Julep",base:"威士忌",str:"中等",flav:"清爽",meth:"直調",glass:"碎冰杯",ing:["波本威士忌","薄荷葉","糖"],tip:"賽馬會指定飲品。"},
+            {zh:"古典",en:"Old Fashioned",base:"威士忌",str:"強烈",flav:"苦甜",meth:"攪拌",glass:"古典杯",ing:["波本威士忌 45ml","方糖","苦精"],tip:"它是雞尾酒的始祖。不要急著喝完，隨著方糖與冰塊融化，你會看見這杯酒隨時間變化的多層面貌。"},
+            {zh:"威士忌酸酒",en:"Whiskey Sour",base:"威士忌",str:"中等",flav:"酸甜",meth:"搖盪",glass:"古典杯",ing:["威士忌 45ml","檸檬汁","蛋白"],tip:"蛋白的加入讓口感變得像絲絨般滑順，掩蓋了威士忌的辛辣感。這是一杯能在甜、酸與木質調間跳舞的藝術品。"},
+            {zh:"曼哈頓",en:"Manhattan",base:"威士忌",str:"強烈",flav:"濃郁",meth:"攪拌",glass:"馬丁尼杯",ing:["裸麥威士忌","紅苦艾酒","苦精"],tip:"雞尾酒之王是馬丁尼，那之后絕對是曼哈頓。它深邃、濃郁，帶著紅色苦艾酒的藥草香氣，象徵著大城市的繁華與落寞。"},
+            {zh:"盤尼西林",en:"Penicillin",base:"威士忌",str:"中等",flav:"煙燻",meth:"搖盪",glass:"古典杯",ing:["威士忌","檸檬汁","蜂蜜薑汁糖漿"],tip:"這杯酒的味道就像它的名字：良藥。煙燻泥煤味與生薑的辛辣結合，像是在寒冬裡點起的一把火。"},
+            {zh:"羅伯羅伊",en:"Rob Roy",base:"威士忌",str:"強烈",flav:"濃郁",meth:"攪拌",glass:"馬丁尼杯",ing:["蘇格蘭威士忌","紅苦艾酒"],tip:"這是一杯向蘇格蘭羅賓漢致敬的調酒。比起曼哈頓，它多了一份蘇格蘭威士忌特有的泥土與煙燻氣息。"},
+            {zh:"薄荷茱莉普",en:"Mint Julep",base:"威士忌",str:"中等",flav:"清爽",meth:"直調",glass:"銀杯/碎冰杯",ing:["波本威士忌","新鮮薄荷葉","糖"],tip:"美國肯塔基賽馬會的象徵。大量的碎冰讓杯身結起白霜，在那份冰涼中，薄荷與波本威士忌達到了一種近乎野性的契合。"},
             // Rum
-            {zh:"莫希托",en:"Mojito",base:"蘭姆酒",str:"輕微",flav:"清爽",meth:"直調",glass:"高球杯",ing:["蘭姆酒","薄荷","蘇打水"],tip:"古巴的夏日風情。"},
-            {zh:"黛綺莉",en:"Daiquiri",base:"蘭姆酒",str:"中等",flav:"酸甜",meth:"搖盪",glass:"馬丁尼杯",ing:["蘭姆酒 60ml","萊姆汁"],tip:"基礎卻最難做。"},
-            {zh:"月黑風高",en:"Dark 'N' Stormy",base:"蘭姆酒",str:"中等",flav:"辛辣",meth:"直調",glass:"高球杯",ing:["黑蘭姆酒","薑汁啤酒"],tip:"百慕達傳奇。"},
-            {zh:"邁泰",en:"Mai Tai",base:"蘭姆酒",str:"強烈",flav:"果香",meth:"搖盪",glass:"Tiki杯",ing:["黑白蘭姆酒","橙酒","杏仁"],tip:"熱帶風格王者。"},
-            {zh:"自由古巴",en:"Cuba Libre",base:"蘭姆酒",str:"輕微",flav:"酸甜",meth:"直調",glass:"高球杯",ing:["蘭姆酒","可樂","萊姆"],tip:"自由的味道。"},
-            {zh:"Piña Colada",en:"Piña Colada",base:"蘭姆酒",str:"輕微",flav:"甜美",meth:"搖盪",glass:"颶風杯",ing:["蘭姆酒","鳳梨汁","椰奶"],tip:"液體甜點。"},
+            {zh:"莫希托",en:"Mojito",base:"蘭姆酒",str:"輕微",flav:"清爽",meth:"直調",glass:"高球杯",ing:["蘭姆酒","薄荷","蘇打水","萊姆"],tip:"海明威在五分錢酒館的遺產。薄荷必須用「拍」的，讓精油滲出而不帶苦味，每一口都是古巴哈瓦那的海風。"},
+            {zh:"黛綺莉",en:"Daiquiri",base:"蘭姆酒",str:"中等",flav:"酸甜",meth:"搖盪",glass:"馬丁尼杯",ing:["白蘭姆酒 60ml","萊姆汁 22.5ml"],tip:"這是調酒師的試金石。如果一個調酒師能做出一杯比例完美、冰度十足且平衡的黛綺莉，他就是大師。"},
+            {zh:"月黑風高",en:"Dark 'N' Stormy",base:"蘭姆酒",str:"中等",flav:"辛辣",meth:"直調",glass:"高球杯",ing:["黑蘭姆酒","薑汁啤酒","萊姆"],tip:"這酒的層次分明：底下是狂暴的薑汁，上方是漆黑的黑蘭姆酒，像極了百慕達海上即將來臨的風暴。"},
+            {zh:"邁泰",en:"Mai Tai",base:"蘭姆酒",str:"強烈",flav:"果香",meth:"搖盪",glass:"Tiki杯",ing:["深淺蘭姆酒","橙酒","杏仁糖漿"],tip:"大溪地語意為「極致的美味」。它是 Tiki 文化的巔峰，果香濃郁到讓你忘記裡面放了多少烈酒。"},
+            {zh:"自由古巴",en:"Cuba Libre",base:"蘭姆酒",str:"輕微",flav:"酸甜",meth:"直調",glass:"高球杯",ing:["蘭姆酒","可樂","萊姆"],tip:"它慶祝的是古巴的獨立。簡單，卻是蘭姆酒愛好者的日常，擠入萊姆角的瞬間，可樂才算有了靈魂。"},
+            {zh:"Piña Colada",en:"Piña Colada",base:"蘭姆酒",str:"輕微",flav:"甜美",meth:"搖盪",glass:"颶風杯",ing:["蘭姆酒","鳳梨汁","椰奶"],tip:"1978年波多黎各的國酒。它是一杯液態的度假地圖，椰奶與鳳梨融合出的綿密口感，適合不想清醒的午後。"},
             // Tequila
-            {zh:"瑪格麗特",en:"Margarita",base:"龍舌蘭",str:"中等",flav:"酸鹹",meth:"搖盪",glass:"瑪格麗特杯",ing:["龍舌蘭","橙酒","萊姆汁","鹽"],tip:"淚水的味道。"},
-            {zh:"龍舌蘭日出",en:"Sunrise",base:"龍舌蘭",str:"輕微",flav:"果香",meth:"直調",glass:"高球杯",ing:["龍舌蘭","柳橙汁","紅石榴"],tip:"絕美的漸層視覺。"},
-            {zh:"帕羅瑪",en:"Paloma",base:"龍舌蘭",str:"輕微",flav:"柚香",meth:"直調",glass:"高球杯",ing:["龍舌蘭","葡萄柚蘇打"],tip:"墨西哥在地最愛。"},
-            {zh:"鬥牛士",en:"Matador",base:"龍舌蘭",str:"輕微",flav:"清爽",meth:"搖盪",glass:"笛型杯",ing:["龍舌蘭","鳳梨汁","萊姆"],tip:"熱帶消暑首選。"},
-            {zh:"神之使者",en:"El Diablo",base:"龍舌蘭",str:"中等",flav:"薑香",meth:"直調",glass:"高球杯",ing:["龍舌蘭","黑醋栗","薑汁啤酒"],tip:"豐富的莓果辛辣。"},
-            {zh:"草帽",en:"Mexican Mule",base:"龍舌蘭",str:"輕微",flav:"薑汁",meth:"直調",glass:"銅杯",ing:["龍舌蘭","萊姆汁","薑汁啤酒"],tip:"墨西哥騾子。"},
+            {zh:"瑪格麗特",en:"Margarita",base:"龍舌蘭",str:"中等",flav:"酸鹹",meth:"搖盪",glass:"瑪格麗特杯",ing:["龍舌蘭","橙酒","萊姆汁","鹽"],tip:"鹽圈是關鍵，它能引發龍舌蘭的甜。這是一杯紀念戀人的調酒，每一口都帶著淚水的鹹與回憶的酸甜。"},
+            {zh:"龍舌蘭日出",en:"Tequila Sunrise",base:"龍舌蘭",str:"輕微",flav:"果香",meth:"直調",glass:"高球杯",ing:["龍舌蘭","柳橙汁","紅石榴糖漿"],tip:"這酒的顏色就像清晨的太陽。紅石榴緩緩沉入杯底，形成美麗的漸層，口感卻極其輕盈易飲。"},
+            {zh:"帕羅瑪",en:"Paloma",base:"龍舌蘭",str:"輕微",flav:"柚香",meth:"直調",glass:"高球杯",ing:["龍舌蘭","葡萄柚蘇打","鹽"],tip:"在墨西哥，它的受歡迎程度遠超瑪格麗特。葡萄柚的微苦與碳酸感，讓龍舌蘭變得異常溫柔。"},
+            {zh:"鬥牛士",en:"Matador",base:"龍舌蘭",str:"輕微",flav:"清爽",meth:"搖盪",glass:"笛型杯",ing:["龍舌蘭","鳳梨汁","萊姆汁"],tip:"如果你受不了龍舌蘭的辛辣，選這杯。鳳梨的果甜完全包覆了龍舌蘭，讓這頭憤怒的公牛瞬間安靜。"},
+            {zh:"神之使者",en:"El Diablo",base:"龍舌蘭",str:"中等",flav:"薑香",meth:"直調",glass:"高球杯",ing:["龍舌蘭","黑醋栗","薑汁啤酒"],tip:"這個名字意為「惡魔」。黑醋栗酒帶來的深紫色與薑汁的辛感結合，口感魅惑，一不小心就會喝多。"},
+            {zh:"墨西哥騾子",en:"Mexican Mule",base:"龍舌蘭",str:"輕微",flav:"薑汁",meth:"直調",glass:"銅杯",ing:["龍舌蘭","萊姆汁","薑汁啤酒"],tip:"當龍舌蘭遇到薑，會產生一種奇妙的乾爽感。用銅杯裝著，冰鎮感直擊腦門。"},
             // Vodka
-            {zh:"莫斯科騾子",en:"Moscow Mule",base:"伏特加",str:"輕微",flav:"薑汁",meth:"直調",glass:"銅杯",ing:["伏特加","萊姆汁","薑汁啤酒"],tip:"清爽的銅杯體驗。"},
-            {zh:"咖啡馬丁尼",en:"Espresso Martini",base:"伏特加",str:"中等",flav:"濃郁",meth:"搖盪",glass:"馬丁尼杯",ing:["伏特加","咖啡","咖啡酒"],tip:"提神且微醺。"},
-            {zh:"長島冰茶",en:"Long Island",base:"伏特加",str:"強烈",flav:"酸甜",meth:"直調",glass:"高球杯",ing:["五大基酒","可樂"],tip:"失憶水。"},
-            {zh:"柯夢波丹",en:"Cosmopolitan",base:"伏特加",str:"中等",flav:"果香",meth:"搖盪",glass:"馬丁尼杯",ing:["伏特加","橙酒","蔓越莓汁"],tip:"都市女性經典。"},
-            {zh:"海風",en:"Sea Breeze",base:"伏特加",str:"輕微",flav:"果香",meth:"直調",glass:"高球杯",ing:["伏特加","蔓越莓","葡萄柚"],tip:"微酸清爽。"},
-            {zh:"血腥瑪麗",en:"Bloody Mary",base:"伏特加",str:"中等",flav:"鹹辣",meth:"捲動",glass:"高球杯",ing:["伏特加","番茄汁","香料"],tip:"早午餐良伴。"},
+            {zh:"莫斯科騾子",en:"Moscow Mule",base:"伏特加",str:"輕微",flav:"薑汁",meth:"直調",glass:"銅杯",ing:["伏特加","萊姆汁","薑汁啤酒"],tip:"當年這酒是為了促銷賣不掉的銅杯與薑汁啤酒而生的。誰能想到，它卻成了酒吧裡永恆的經典？"},
+            {zh:"咖啡馬丁尼",en:"Espresso Martini",base:"伏特加",str:"中等",flav:"濃郁",meth:"搖盪",glass:"馬丁尼杯",ing:["伏特加","濃縮咖啡","咖啡酒"],tip:"一位名模曾在酒吧要求調酒師：給我來杯能「吵醒我、然後弄醉我」的酒。"},
+            {zh:"長島冰茶",en:"Long Island",base:"伏特加",str:"強烈",flav:"酸甜",meth:"直調",glass:"高球杯",ing:["五大基酒","橙酒","可樂"],tip:"它沒有茶，卻有著紅茶的視覺。四五種烈酒堆疊出的後勁，是初學者最致命的溫柔鄉。"},
+            {zh:"柯夢波丹",en:"Cosmopolitan",base:"伏特加",str:"中等",flav:"果香",meth:"搖盪",glass:"馬丁尼杯",ing:["伏特加","橙酒","蔓越莓汁"],tip:"這是屬於大城市的粉色夢幻。充滿了現代都會的精緻與活力。"},
+            {zh:"海風",en:"Sea Breeze",base:"伏特加",str:"輕微",flav:"果香",meth:"直調",glass:"高球杯",ing:["伏特加","蔓越莓汁","葡萄柚汁"],tip:"這酒的口感就像它的名字，微苦、微酸、涼爽，是一杯即便你不常喝酒也能輕易愛上的作品。"},
+            {zh:"血腥瑪麗",en:"Bloody Mary",base:"伏特加",str:"中等",flav:"鹹辣",meth:"滾動",glass:"高球杯",ing:["伏特加","番茄汁","香辣醬","黑胡椒"],tip:"號稱是全世界最複雜的調酒。有人說是解酒良藥，也有人說是液態沙拉。適合搭配早午餐。"},
             // Brandy
-            {zh:"側車",en:"Sidecar",base:"白蘭地",str:"中等",flav:"酸甜",meth:"搖盪",glass:"馬丁尼杯",ing:["白蘭地","橙酒","檸檬汁"],tip:"最經典的平衡。"},
-            {zh:"亞歷山大",en:"Alexander",base:"白蘭地",str:"中等",flav:"奶香",meth:"搖盪",glass:"馬丁尼杯",ing:["白蘭地","可可酒","鮮奶油"],tip:"成人的甜點。"},
-            {zh:"薩澤拉克",en:"Sazerac",base:"白蘭地",str:"強烈",flav:"草本",meth:"攪拌",glass:"古典杯",ing:["白蘭地","艾碧斯","苦精"],tip:"最古老的雞尾酒。"},
-            {zh:"馬蹄",en:"Horse's Neck",base:"白蘭地",str:"輕微",flav:"清爽",meth:"直調",glass:"高球杯",ing:["白蘭地","薑汁汽水"],tip:"優雅長皮裝飾。"},
-            {zh:"香榭麗舍",en:"Champs-Élysées",base:"白蘭地",str:"強烈",flav:"草本",meth:"搖盪",glass:"馬丁尼杯",ing:["白蘭地","黃夏翠絲"],tip:"巴黎的浪漫。"},
-            {zh:"床第之間",en:"Between Sheets",base:"白蘭地",str:"強烈",flav:"酸甜",meth:"搖盪",glass:"馬丁尼杯",ing:["白蘭地","蘭姆酒","橙酒"],tip:"夜晚的誘惑。"}
+            {zh:"側車",en:"Sidecar",base:"白蘭地",str:"中等",flav:"酸甜",meth:"搖盪",glass:"馬丁尼杯",ing:["白蘭地 50ml","橙酒 20ml","檸檬汁 20ml"],tip:"這是白蘭地調酒中的「完美比例」。名字來源於一戰時期常用的側掛摩托車。"},
+            {zh:"亞歷山大",en:"Alexander",base:"白蘭地",str:"中等",flav:"奶香",meth:"搖盪",glass:"馬丁尼杯",ing:["白蘭地","可可酒","鮮奶油"],tip:"1922年為了一位瑪麗公主的婚禮而改版。像是一杯帶酒精的可可奶昔，絲滑到讓人忘記防備。"},
+            {zh:"薩澤拉克",en:"Sazerac",base:"白蘭地",str:"強烈",flav:"草本",meth:"攪拌",glass:"古典杯",ing:["白蘭地","艾碧斯","苦精"],tip:"誕生於紐奧良，被公認為世界第一杯雞尾酒。杯壁那抹淡淡的艾碧斯香氣，是這杯酒的靈魂。"},
+            {zh:"馬蹄",en:"Horse's Neck",base:"白蘭地",str:"輕微",flav:"清爽",meth:"直調",glass:"高球杯",ing:["白蘭地","薑汁汽水"],tip:"亮點在於那條長到嚇人的檸檬皮螺旋，遠看就像馬的脖子。口感乾脆利落，是白蘭地的親民喝法。"},
+            {zh:"香榭麗舍",en:"Champs-Élysées",base:"白蘭地",str:"強烈",flav:"草本",meth:"搖盪",glass:"馬丁尼杯",ing:["白蘭地","黃夏翠絲","檸檬汁"],tip:"法式的極致浪漫。草本酒之王夏翠絲與白蘭地的碰撞，口感深邃且高貴，彷彿漫步巴黎街頭。"},
+            {zh:"床第之間",en:"Between Sheets",base:"白蘭地",str:"強烈",flav:"酸甜",meth:"搖盪",glass:"馬丁尼杯",ing:["白蘭地","蘭姆酒","橙酒"],tip:"這是一杯屬於夜晚、極具侵略性的危險調酒。"}
         ];
 
         let customCmds = JSON.parse(localStorage.getItem('party_custom_cmds')) || [];
@@ -139,13 +156,29 @@
             const d = document.getElementById('recipe-display'); d.classList.add('shaking');
             setTimeout(()=>{
                 d.classList.remove('shaking'); const r = database[Math.floor(Math.random()*database.length)];
-                d.innerHTML = `<div class="tag-container"><span class="tag tag-base">${r.base}</span><span class="tag tag-str">${r.str}</span><span class="tag tag-flav">${r.flav}</span><span class="tag tag-meth">${r.meth}</span><span class="tag tag-glass">${r.glass}</span></div><h2 class="recipe-title-zh">${r.zh}</h2><div class="recipe-title-en">${r.en}</div><div class="ing-box"><ul class="ing-list">${r.ing.map(i=>`<li>${i}</li>`).join('')}</ul></div><div class="tip-box">💡 ${r.tip}</div>`;
+                d.innerHTML = `
+                    <div class="tag-container">
+                        <span class="tag tag-base">${r.base}</span>
+                        <span class="tag tag-str">${r.str}</span>
+                        <span class="tag tag-flav">${r.flav}</span>
+                        <span class="tag tag-meth">${r.meth}</span>
+                        <span class="tag tag-glass">${r.glass}</span>
+                    </div>
+                    <h2 class="recipe-title-zh">${r.zh}</h2>
+                    <div class="recipe-title-en">${r.en}</div>
+                    <div class="ing-box">
+                        <ul class="ing-list">${r.ing.map(i=>`<li>${i}</li>`).join('')}</ul>
+                    </div>
+                    <div class="tip-box">${r.tip}</div>
+                `;
             },400);
         }
 
         function switchMode(m) {
-            mode = m; document.getElementById('m-def').classList.toggle('active',m==='default'); document.getElementById('m-cus').classList.toggle('active',m==='custom');
-            document.getElementById('cus-area').classList.toggle('show',m==='custom'); if(m==='custom') render();
+            mode = m; document.getElementById('m-def').className = m==='default'?'active':'';
+            document.getElementById('m-cus').className = m==='custom'?'active':'';
+            document.getElementById('cus-area').style.display = m==='custom'?'flex':'none';
+            if(m==='custom') render();
         }
 
         function addCmd() {
@@ -153,15 +186,16 @@
         }
 
         function delCmd(idx) { customCmds.splice(idx,1); save(); }
-        function clearAll() { if(confirm("清空？")){customCmds=[]; save();} }
+        function clearAll() { if(confirm("確定要全部清空嗎？")){customCmds=[]; save();} }
         function save() { localStorage.setItem('party_custom_cmds', JSON.stringify(customCmds)); render(); }
         function render() {
-            document.getElementById('cmd-list').innerHTML = customCmds.map((c,i)=>`<div class="cmd-item"><span>${c}</span><button class="del-btn" onclick="delCmd(${i})">刪除</button></div>`).join('') || '<p style="font-size:0.7rem;text-align:center;">空</p>';
+            document.getElementById('cmd-list').innerHTML = customCmds.map((c,i)=>`<div class="cmd-item"><span>${c}</span><button class="del-btn" onclick="delCmd(${i})">X</button></div>`).join('') || '<p style="text-align:center;color:#444;font-size:0.8rem;">清單還是空的喔！</p>';
         }
 
         function rollGame() {
-            const d = document.getElementById('game-display'); let p = mode==='default' ? ["喝1杯","左右乾杯","電量低喝","不准說你我他","交杯酒","全場喝","手機末碼喝"] : customCmds;
-            if(!p.length){ d.innerText="請新增指令"; return; }
+            const d = document.getElementById('game-display'); 
+            let p = mode==='default' ? ["指定一人喝 1 杯","左右兩邊乾杯","電量最低的人喝","不准說「你我他」","跟對面喝交杯酒","全場最清醒的人喝","手機末碼最大的人喝"] : customCmds;
+            if(!p.length){ d.innerText="請先新增指令"; return; }
             d.innerText="DRAWING..."; setTimeout(()=>{d.innerText=p[Math.floor(Math.random()*p.length)];},300);
         }
 
