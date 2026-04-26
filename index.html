@@ -153,9 +153,15 @@
                 <div style="text-align:center; margin-top:160px; color:#444; font-style:italic;">
                     Tap 'Generate' to shake a drink.
                 </div>
+                <div style="display: flex; gap: 10px; margin-top: 25px;">
+                    <button class="generate-btn" style="margin-top:0;" onclick="rollRecipe()">Generate</button>
+                    <button id="shake-auth-btn" class="generate-btn" style="margin-top:0; padding: 12px 20px;" onclick="requestShakeAuth()">📳</button>
+                </div>
+
             </div>
         </div>
         <button class="generate-btn" onclick="rollRecipe()">Generate</button>
+        
     </section>
 
     <section id="game-page" class="page">
@@ -251,7 +257,52 @@
                 `;
             }, 400);
         }
+        let lastUpdate = 0;
+        let lastX, lastY, lastZ;
+           const threshold = 15; // 搖晃強度閾值，數字越小越靈敏
 
+        // 請求感測器權限 (iOS 必備)
+        function requestShakeAuth() {
+            if (typeof DeviceMotionEvent.requestPermission === 'function') {
+                DeviceMotionEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                            window.addEventListener('devicemotion', handleMotion);
+                            alert('搖晃功能已開啟！快搖搖看手機～');
+                        }
+                    })
+                    .catch(console.error);
+            } else {
+                // 非 iOS 裝置直接監聽
+                window.addEventListener('devicemotion', handleMotion);
+                alert('搖晃功能已啟動！');
+            }
+        }
+
+        function handleMotion(event) {
+            // 只在 Recipe 頁面時才觸發搖晃換酒
+            if (document.getElementById('recipe-page').style.display !== 'flex') return;
+
+            let curTime = new Date().getTime();
+            if ((curTime - lastUpdate) > 100) {
+                let diffTime = curTime - lastUpdate;
+                lastUpdate = curTime;
+
+                let acceleration = event.accelerationIncludingGravity;
+                let x = acceleration.x;
+                let y = acceleration.y;
+                let z = acceleration.z;
+
+                let speed = Math.abs(x + y + z - lastX - lastY - lastZ) / diffTime * 10000;
+
+                if (speed > threshold) {
+                    rollRecipe(); // 觸發換酒
+                }
+                lastX = x; lastY = y; lastZ = z;
+            }
+        }
+
+  
         function rollGame() {
             const display = document.getElementById('game-display');
             display.innerHTML = "DRAWING...";
