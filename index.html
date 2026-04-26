@@ -66,20 +66,23 @@
             margin: 10px auto; box-sizing: border-box;
         }
         .luxury-inner {
-            background: var(--card-bg); border-radius: 35px; padding: 30px;
-            text-align: left; min-height: 480px; box-sizing: border-box; display: flex; flex-direction: column;
+            background: var(--card-bg); border-radius: 35px; padding: 25px;
+            text-align: left; min-height: 520px; box-sizing: border-box; display: flex; flex-direction: column;
         }
-        .tag-container { display: flex; gap: 8px; margin-bottom: 15px; }
-        .tag { padding: 4px 14px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; color: #000; }
-        .tag-base { background: #5d9cec; }
-        .tag-str  { background: #ed5565; }
-        .tag-flav { background: #a0d468; }
-        .recipe-title-zh { color: var(--gold); font-size: 2rem; margin: 0; font-weight: bold; }
-        .recipe-title-en { color: #666; font-size: 0.9rem; font-style: italic; margin-bottom: 15px; }
-        .ing-box { background: var(--inner-bg); border-radius: 20px; padding: 15px; margin-top: 10px; }
-        .ing-list { list-style: none; padding: 0; margin: 0; color: #bbb; line-height: 1.6; font-size: 0.85rem; }
+        .tag-container { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+        .tag { padding: 3px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: bold; color: #000; }
+        .tag-base { background: #5d9cec; } /* 基酒 */
+        .tag-meth { background: #ffce54; } /* 手法 */
+        .tag-glass { background: #ac92ec; } /* 杯型 */
+        
+        .recipe-title-zh { color: var(--gold); font-size: 1.8rem; margin: 0; font-weight: bold; }
+        .recipe-title-en { color: #666; font-size: 0.85rem; font-style: italic; margin-bottom: 12px; }
+        
+        .ing-box { background: var(--inner-bg); border-radius: 15px; padding: 15px; margin-top: 5px; }
+        .ing-list { list-style: none; padding: 0; margin: 0; color: #bbb; line-height: 1.5; font-size: 0.85rem; }
         .ing-list li::before { content: "• "; color: var(--gold); margin-right: 8px; }
-        .tip-box { margin-top: auto; padding: 12px; border-left: 2px solid var(--gold); background: rgba(212, 175, 55, 0.05); font-size: 0.75rem; color: #999; font-style: italic; }
+        
+        .tip-box { margin-top: auto; padding: 10px; border-left: 2px solid var(--gold); background: rgba(212, 175, 55, 0.05); font-size: 0.75rem; color: #999; font-style: italic; }
 
         /* --- PARTY --- */
         .mode-switch { display: flex; background: #222; border-radius: 50px; padding: 5px; margin-bottom: 20px; }
@@ -146,50 +149,50 @@
     <script>
         const database = [
             // Gin (6)
-            { zh: "馬丁尼", en: "Martini", base: "琴酒", str: "強烈", flav: "辛辣", ing: ["琴酒 60ml", "辛口苦艾酒 10ml"], tip: "雞尾酒之王，007 的最愛。" },
-            { zh: "尼格羅尼", en: "Negroni", base: "琴酒", str: "強烈", flav: "苦甜", ing: ["琴酒 30ml", "金巴利 30ml", "紅苦艾酒 30ml"], tip: "義大利經典，苦甜平衡的極致。" },
-            { zh: "琴蕾", en: "Gimlet", base: "琴酒", str: "中等", flav: "酸甜", ing: ["琴酒 45ml", "新鮮檸檬汁 15ml", "糖漿"], tip: "簡單卻極度考驗琴酒品質的調酒。" },
-            { zh: "白色佳人", en: "White Lady", base: "琴酒", str: "中等", flav: "酸甜", ing: ["琴酒 40ml", "橙酒 30ml", "檸檬汁 20ml"], tip: "優雅的白色，口感絲滑。" },
-            { zh: "臨別一語", en: "Last Word", base: "琴酒", str: "強烈", flav: "草本", ing: ["琴酒", "夏翠絲綠酒", "黑櫻桃酒", "萊姆汁"], tip: "禁酒令時期經典，風味層次複雜。" },
-            { zh: "琴費斯", en: "Gin Fizz", base: "琴酒", str: "輕微", flav: "清爽", ing: ["琴酒 45ml", "檸檬汁", "蘇打水"], tip: "夏日消暑首選，清爽氣泡感。" },
+            { zh: "馬丁尼", en: "Martini", base: "琴酒", meth: "攪拌 Stir", glass: "馬丁尼杯", ing: ["琴酒 60ml", "辛口苦艾酒 10ml"], tip: "雞尾酒之王，007 的最愛。" },
+            { zh: "尼格羅尼", en: "Negroni", base: "琴酒", meth: "攪拌 Stir", glass: "古典杯", ing: ["琴酒 30ml", "金巴利 30ml", "紅苦艾酒 30ml"], tip: "義大利經典，苦甜平衡的極致。" },
+            { zh: "琴蕾", en: "Gimlet", base: "琴酒", meth: "搖盪 Shake", glass: "馬丁尼杯", ing: ["琴酒 45ml", "新鮮檸檬汁 15ml", "糖漿"], tip: "簡單卻極度考驗琴酒品質。" },
+            { zh: "白色佳人", en: "White Lady", base: "琴酒", meth: "搖盪 Shake", glass: "馬丁尼杯", ing: ["琴酒 40ml", "橙酒 30ml", "檸檬汁 20ml"], tip: "優雅的白色，口感絲滑。" },
+            { zh: "臨別一語", en: "Last Word", base: "琴酒", meth: "搖盪 Shake", glass: "馬丁尼杯", ing: ["琴酒", "夏翠絲綠酒", "黑櫻桃酒", "萊姆汁"], tip: "禁酒令時期經典，層次複雜。" },
+            { zh: "琴費斯", en: "Gin Fizz", base: "琴酒", meth: "搖盪 Shake", glass: "高球杯", ing: ["琴酒 45ml", "檸檬汁", "蘇打水"], tip: "夏日消暑首選，清爽氣泡感。" },
             // Whiskey (6)
-            { zh: "古典雞尾酒", en: "Old Fashioned", base: "威士忌", str: "強烈", flav: "苦甜", ing: ["波本威士忌 45ml", "方糖", "苦精"], tip: "最純粹的威士忌飲用方式。" },
-            { zh: "威士忌酸酒", en: "Whiskey Sour", base: "威士忌", str: "中等", flav: "酸甜", ing: ["威士忌 45ml", "檸檬汁", "蛋白 (可選)"], tip: "柔和威士忌鋒芒的經典酸酒。" },
-            { zh: "曼哈頓", en: "Manhattan", base: "威士忌", str: "強烈", flav: "濃郁", ing: ["裸麥威士忌 50ml", "紅苦艾酒 20ml"], tip: "被譽為雞尾酒之后。" },
-            { zh: "盤尼西林", en: "Penicillin", base: "威士忌", str: "中等", flav: "煙燻", ing: ["威士忌", "檸檬汁", "蜂蜜薑汁糖漿"], tip: "泥煤、薑與蜂蜜的奇妙融合。" },
-            { zh: "羅伯羅伊", en: "Rob Roy", base: "威士忌", str: "強烈", flav: "濃郁", ing: ["蘇格蘭威士忌", "紅苦艾酒", "苦精"], tip: "蘇格蘭版的曼哈頓。" },
-            { zh: "薄荷茱莉普", en: "Mint Julep", base: "威士忌", str: "中等", flav: "清爽", ing: ["波本威士忌", "薄荷葉", "方糖"], tip: "美國肯塔基賽馬會的指定飲品。" },
+            { zh: "古典雞尾酒", en: "Old Fashioned", base: "威士忌", meth: "攪拌 Stir", glass: "古典杯", ing: ["波本威士忌 45ml", "方糖", "苦精"], tip: "最純粹的威士忌飲用方式。" },
+            { zh: "威士忌酸酒", en: "Whiskey Sour", base: "威士忌", meth: "搖盪 Shake", glass: "古典杯", ing: ["威士忌 45ml", "檸檬汁", "蛋白 (可選)"], tip: "柔和威士忌鋒芒的經典酸酒。" },
+            { zh: "曼哈頓", en: "Manhattan", base: "威士忌", meth: "攪拌 Stir", glass: "馬丁尼杯", ing: ["裸麥威士忌 50ml", "紅苦艾酒 20ml"], tip: "被譽為雞尾酒之后。" },
+            { zh: "盤尼西林", en: "Penicillin", base: "威士忌", meth: "搖盪 Shake", glass: "古典杯", ing: ["威士忌", "檸檬汁", "蜂蜜薑汁糖漿"], tip: "泥煤、薑與蜂蜜的奇妙融合。" },
+            { zh: "羅伯羅伊", en: "Rob Roy", base: "威士忌", meth: "攪拌 Stir", glass: "馬丁尼杯", ing: ["蘇格蘭威士忌", "紅苦艾酒", "苦精"], tip: "蘇格蘭版的曼哈頓。" },
+            { zh: "薄荷茱莉普", en: "Mint Julep", base: "威士忌", meth: "直調 Build", glass: "銀杯/古典杯", ing: ["波本威士忌", "薄荷葉", "方糖"], tip: "美國肯塔基賽馬會的指定飲品。" },
             // Rum (6)
-            { zh: "莫希托", en: "Mojito", base: "蘭姆酒", str: "輕微", flav: "清爽", ing: ["白蘭姆酒", "薄荷", "蘇打水", "檸檬汁"], tip: "海明威在古巴的最愛。" },
-            { zh: "黛綺莉", en: "Daiquiri", base: "蘭姆酒", str: "中等", flav: "酸甜", ing: ["白蘭姆酒 60ml", "萊姆汁 22ml"], tip: "檢驗調酒師基本功的最佳標竿。" },
-            { zh: "月黑風高", en: "Dark 'N' Stormy", base: "蘭姆酒", str: "中等", flav: "辛辣", ing: ["黑蘭姆酒", "薑汁啤酒", "萊姆"], tip: "深色蘭姆酒與薑汁的完美撞擊。" },
-            { zh: "邁泰", en: "Mai Tai", base: "蘭姆酒", str: "強烈", flav: "果香", ing: ["蘭姆酒", "橙酒", "杏仁糖漿"], tip: "Tiki 風格的熱帶代表。" },
-            { zh: "自由古巴", en: "Cuba Libre", base: "蘭姆酒", str: "輕微", flav: "酸甜", ing: ["蘭姆酒", "可樂", "萊姆角"], tip: "慶祝古巴獨立的簡單經典。" },
-            { zh: "Piña Colada", en: "Piña Colada", base: "蘭姆酒", str: "輕微", flav: "甜美", ing: ["蘭姆酒", "鳳梨汁", "椰奶"], tip: "波多黎各的國酒，充滿南洋風情。" },
+            { zh: "莫希托", en: "Mojito", base: "蘭姆酒", meth: "直調 Build", glass: "高球杯", ing: ["白蘭姆酒", "薄荷", "蘇打水", "檸檬汁"], tip: "海明威在古巴的最愛。" },
+            { zh: "黛綺莉", en: "Daiquiri", base: "蘭姆酒", meth: "搖盪 Shake", glass: "馬丁尼杯", ing: ["白蘭姆酒 60ml", "萊姆汁 22ml"], tip: "檢驗調酒師基本功的最佳標竿。" },
+            { zh: "月黑風高", en: "Dark 'N' Stormy", base: "蘭姆酒", meth: "直調 Build", glass: "高球杯", ing: ["黑蘭姆酒", "薑汁啤酒", "萊姆"], tip: "深色蘭姆酒與薑汁的完美撞擊。" },
+            { zh: "邁泰", en: "Mai Tai", base: "蘭姆酒", meth: "搖盪 Shake", glass: "Tiki杯/高球杯", ing: ["蘭姆酒", "橙酒", "杏仁糖漿"], tip: "Tiki 風格的熱帶代表。" },
+            { zh: "自由古巴", en: "Cuba Libre", base: "蘭姆酒", meth: "直調 Build", glass: "高球杯", ing: ["蘭姆酒", "可樂", "萊姆角"], tip: "慶祝古巴獨立的簡單經典。" },
+            { zh: "皮納卡拉達", en: "Piña Colada", base: "蘭姆酒", meth: "搖盪/電動攪拌", glass: "颶風杯", ing: ["蘭姆酒", "鳳梨汁", "椰奶"], tip: "波多黎各國酒，充滿南洋風情。" },
             // Tequila (6)
-            { zh: "瑪格麗特", en: "Margarita", base: "龍舌蘭", str: "中等", flav: "酸鹹", ing: ["龍舌蘭", "橙酒", "檸檬汁", "鹽圈"], tip: "龍舌蘭最著名的推廣大使。" },
-            { zh: "龍舌蘭日出", en: "Tequila Sunrise", base: "龍舌蘭", str: "輕微", flav: "果香", ing: ["龍舌蘭", "柳橙汁", "紅石榴糖漿"], tip: "視覺極佳的漸層效果。" },
-            { zh: "帕羅瑪", en: "Paloma", base: "龍舌蘭", str: "輕微", flav: "柚香", ing: ["龍舌蘭", "葡萄柚蘇打", "鹽"], tip: "墨西哥在地最受歡迎的龍舌蘭調酒。" },
-            { zh: "龍舌蘭馬丁尼", en: "Tequini", base: "龍舌蘭", str: "強烈", flav: "辛辣", ing: ["龍舌蘭", "辛口苦艾酒"], tip: "帶有強烈草本感與辛辣度的變體。" },
-            { zh: "鬥牛士", en: "Matador", base: "龍舌蘭", str: "輕微", flav: "清爽", ing: ["龍舌蘭", "鳳梨汁", "萊姆汁"], tip: "果香濃厚，掩蓋了龍舌蘭的嗆辣。" },
-            { zh: "神之使者", en: "El Diablo", base: "龍舌蘭", str: "中等", flav: "薑香", ing: ["龍舌蘭", "黑醋栗酒", "薑汁啤酒"], tip: "豐富的紅莓與薑汁結合。" },
+            { zh: "瑪格麗特", en: "Margarita", base: "龍舌蘭", meth: "搖盪 Shake", glass: "瑪格麗特杯", ing: ["龍舌蘭", "橙酒", "檸檬汁", "鹽圈"], tip: "龍舌蘭最著名的推廣大使。" },
+            { zh: "龍舌蘭日出", en: "Tequila Sunrise", base: "龍舌蘭", meth: "直調 Build", glass: "高球杯", ing: ["龍舌蘭", "柳橙汁", "紅石榴糖漿"], tip: "視覺極佳的漸層效果。" },
+            { zh: "帕羅瑪", en: "Paloma", base: "龍舌蘭", meth: "直調 Build", glass: "高球杯", ing: ["龍舌蘭", "葡萄柚蘇打", "鹽"], tip: "墨西哥最受歡迎的龍舌蘭調酒。" },
+            { zh: "龍舌蘭馬丁尼", en: "Tequini", base: "龍舌蘭", meth: "攪拌 Stir", glass: "馬丁尼杯", ing: ["龍舌蘭", "辛口苦艾酒"], tip: "帶有強烈草本感的變體。" },
+            { zh: "鬥牛士", en: "Matador", base: "龍舌蘭", meth: "搖盪 Shake", glass: "笛型杯/笛杯", ing: ["龍舌蘭", "鳳梨汁", "萊姆汁"], tip: "果香濃厚，掩蓋了龍舌蘭嗆辣。" },
+            { zh: "神之使者", en: "El Diablo", base: "龍舌蘭", meth: "直調 Build", glass: "高球杯", ing: ["龍舌蘭", "黑醋栗酒", "薑汁啤酒"], tip: "豐富的紅莓與薑汁結合。" },
             // Vodka (6)
-            { zh: "莫斯科騾子", en: "Moscow Mule", base: "伏特加", str: "輕微", flav: "薑汁", ing: ["伏特加", "萊姆汁", "薑汁啤酒"], tip: "銅杯盛裝是其標誌性特徵。" },
-            { zh: "咖啡馬丁尼", en: "Espresso Martini", base: "伏特加", str: "中等", flav: "濃郁", ing: ["伏特加", "濃縮咖啡", "咖啡酒"], tip: "提神醒腦與微醺的結合。" },
-            { zh: "長島冰茶", en: "Long Island Iced Tea", base: "伏特加", str: "強烈", flav: "酸甜", ing: ["五大基酒各 15ml", "可樂"], tip: "派對上的致命甜心。" },
-            { zh: "柯夢波丹", en: "Cosmopolitan", base: "伏特加", str: "中等", flav: "果香", ing: ["伏特加", "橙酒", "蔓越莓汁"], tip: "《慾望城市》女主角凱莉的最愛。" },
-            { zh: "海風", en: "Sea Breeze", base: "伏特加", str: "輕微", flav: "果香", ing: ["伏特加", "蔓越莓汁", "葡萄柚汁"], tip: "蔓越莓與葡萄柚的微苦交織。" },
-            { zh: "血腥瑪麗", en: "Bloody Mary", base: "伏特加", str: "中等", flav: "鹹辣", ing: ["伏特加", "番茄汁", "辣椒醬", "香料"], tip: "著名的解酒與早午餐調酒。" },
+            { zh: "莫斯科騾子", en: "Moscow Mule", base: "伏特加", meth: "直調 Build", glass: "銅杯/高球杯", ing: ["伏特加", "萊姆汁", "薑汁啤酒"], tip: "銅杯盛裝是其標誌性特徵。" },
+            { zh: "咖啡馬丁尼", en: "Espresso Martini", base: "伏特加", meth: "搖盪 Shake", glass: "馬丁尼杯", ing: ["伏特加", "濃縮咖啡", "咖啡酒"], tip: "提神醒腦與微醺的結合。" },
+            { zh: "長島冰茶", en: "Long Island Iced Tea", base: "伏特加", meth: "直調 Build", glass: "高球杯", ing: ["五大基酒各 15ml", "可樂"], tip: "派對上的致命甜心。" },
+            { zh: "柯夢波丹", en: "Cosmopolitan", base: "伏特加", meth: "搖盪 Shake", glass: "馬丁尼杯", ing: ["伏特加", "橙酒", "蔓越莓汁"], tip: "《慾望城市》凱莉的最愛。" },
+            { zh: "海風", en: "Sea Breeze", base: "伏特加", meth: "直調 Build", glass: "高球杯", ing: ["伏特加", "蔓越莓汁", "葡萄柚汁"], tip: "蔓越莓與葡萄柚的微苦交織。" },
+            { zh: "血腥瑪麗", en: "Bloody Mary", base: "伏特加", meth: "滾動 Rolling", glass: "高球杯", ing: ["伏特加", "番茄汁", "辣椒醬", "香料"], tip: "著名的解酒與早午餐調酒。" },
             // Brandy (6)
-            { zh: "側車", en: "Sidecar", base: "白蘭地", str: "中等", flav: "酸甜", ing: ["白蘭地 50ml", "橙酒 20ml", "檸檬汁 20ml"], tip: "白蘭地調酒中的黃金比例。" },
-            { zh: "亞歷山大", en: "Alexander", base: "白蘭地", str: "中等", flav: "奶香", ing: ["白蘭地", "可可酒", "鮮奶油"], tip: "像是帶有酒精的巧克力牛奶甜點。" },
-            { zh: "薩澤拉克", en: "Sazerac", base: "白蘭地", str: "強烈", flav: "草本", ing: ["白蘭地", "艾碧斯 (潤杯)", "苦精"], tip: "起源於紐奧良，世界第一杯雞尾酒。" },
-            { zh: "馬蹄", en: "Horse's Neck", base: "白蘭地", str: "輕微", flav: "清爽", ing: ["白蘭地", "薑汁汽水", "長檸檬皮"], tip: "造型獨特的長皮裝飾調酒。" },
-            { zh: "香榭麗舍", en: "Champs-Élysées", base: "白蘭地", str: "強烈", flav: "草本", ing: ["白蘭地", "夏翠絲黃酒", "檸檬汁"], tip: "充滿巴黎氣息的草本風味。" },
-            { zh: "床第之間", en: "Between the Sheets", base: "白蘭地", str: "強烈", flav: "酸甜", ing: ["白蘭地", "蘭姆酒", "橙酒"], tip: "名字充滿性暗示的側車變體。" }
+            { zh: "側車", en: "Sidecar", base: "白蘭地", meth: "搖盪 Shake", glass: "馬丁尼杯", ing: ["白蘭地 50ml", "橙酒 20ml", "檸檬汁 20ml"], tip: "白蘭地調酒中的黃金比例。" },
+            { zh: "亞歷山大", en: "Alexander", base: "白蘭地", meth: "搖盪 Shake", glass: "馬丁尼杯", ing: ["白蘭地", "可可酒", "鮮奶油"], tip: "帶有酒精的巧克力牛奶甜點。" },
+            { zh: "薩澤拉克", en: "Sazerac", base: "白蘭地", meth: "攪拌 Stir", glass: "古典杯", ing: ["白蘭地", "艾碧斯 (潤杯)", "苦精"], tip: "起源於紐奧良，世界第一杯雞尾酒。" },
+            { zh: "馬蹄", en: "Horse's Neck", base: "白蘭地", meth: "直調 Build", glass: "高球杯", ing: ["白蘭地", "薑汁汽水", "長檸檬皮"], tip: "造型獨特的長皮裝飾調酒。" },
+            { zh: "香榭麗舍", en: "Champs-Élysées", base: "白蘭地", meth: "搖盪 Shake", glass: "馬丁尼杯", ing: ["白蘭地", "夏翠絲黃酒", "檸檬汁"], tip: "充滿巴黎氣息的草本風味。" },
+            { zh: "床第之間", en: "Between the Sheets", base: "白蘭地", meth: "搖盪 Shake", glass: "馬丁尼杯", ing: ["白蘭地", "蘭姆酒", "橙酒"], tip: "名字充滿性暗示。" }
         ];
 
-        const defaultCommands = ["指定一人喝 1 杯", "左右兩邊乾杯", "電量最低的人喝", "不准說「你我他」，說錯喝", "跟對面的人喝交杯酒", "全場最清醒的人喝", "算你好運其他人全喝", "手機最後一封訊息內容是有關工作的人喝"];
+        const defaultCommands = ["指定一人喝 1 杯", "左右兩邊乾杯", "電量最低的人喝", "不准說「你我他」，說錯喝", "跟對面的人喝交杯酒", "全場最清醒的人喝", "算你好運（其他人全喝）", "手機最後一封簡訊內容的人喝"];
         let customCommands = JSON.parse(localStorage.getItem('party_custom_cmds')) || [];
         let currentGameMode = 'default';
 
@@ -197,14 +200,14 @@
         let lastUpdate = 0, last_x, last_y, last_z, SHAKE_THRESHOLD = 800;
         function deviceMotionHandler(eventData) {
             if (document.getElementById('recipe-page').style.display !== 'flex') return;
-            let acceleration = eventData.accelerationIncludingGravity;
+            let acc = eventData.accelerationIncludingGravity;
             let curTime = new Date().getTime();
             if ((curTime - lastUpdate) > 100) {
                 let diffTime = curTime - lastUpdate;
                 lastUpdate = curTime;
-                let speed = Math.abs(acceleration.x + acceleration.y + acceleration.z - last_x - last_y - last_z) / diffTime * 10000;
+                let speed = Math.abs(acc.x + acc.y + acc.z - last_x - last_y - last_z) / diffTime * 10000;
                 if (speed > SHAKE_THRESHOLD) roll();
-                last_x = acceleration.x; last_y = acceleration.y; last_z = acceleration.z;
+                last_x = acc.x; last_y = acc.y; last_z = acc.z;
             }
         }
 
@@ -218,7 +221,7 @@
             }
         }, { once: true });
 
-        // --- 功能 ---
+        // --- 功能控制 ---
         window.onload = () => {
             const special = database[Math.floor(Math.random() * database.length)];
             document.getElementById('daily-special-zh').innerText = special.zh;
@@ -246,8 +249,8 @@
                 display.innerHTML = `
                     <div class="tag-container">
                         <span class="tag tag-base">${res.base}</span>
-                        <span class="tag tag-str">${res.str}</span>
-                        <span class="tag tag-flav">${res.flav}</span>
+                        <span class="tag tag-meth">${res.meth}</span>
+                        <span class="tag tag-glass">${res.glass}</span>
                     </div>
                     <h2 class="recipe-title-zh">${res.zh}</h2>
                     <div class="recipe-title-en">${res.en}</div>
