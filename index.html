@@ -19,7 +19,7 @@
         nav button { background: none; border: 1px solid #444; color: #777; padding: 6px 18px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; letter-spacing: 2px; transition: 0.3s; }
         nav button.active { border-color: var(--gold); color: var(--gold); background: rgba(212, 175, 55, 0.05); }
 
-        .page { display: none; flex-direction: column; align-items: center; padding: 80px 20px 40px; min-height: 100vh; box-sizing: border-box; opacity: 0; transition: opacity 0.4s; }
+        .page { display: none; flex-direction: column; align-items: center; padding: 100px 20px 40px; min-height: 100vh; box-sizing: border-box; opacity: 0; transition: opacity 0.4s; }
         .page.active { display: flex; opacity: 1; }
 
         /* --- Recipe 卡片 --- */
@@ -48,29 +48,30 @@
         .game-card { 
             background: linear-gradient(145deg, #1a1a1a, #0d0d0d); 
             border: 2px solid var(--gold); padding: 40px 20px; width: 90%; max-width: 340px; 
-            border-radius: 25px; text-align: center; margin: 20px 0; 
+            border-radius: 25px; text-align: center; margin: 30px 0; /* 增加上下間距，避免相黏 */
             font-size: 1.4rem; color: var(--gold); font-weight: bold;
-            min-height: 150px; display: flex; align-items: center; justify-content: center;
+            min-height: 180px; display: flex; align-items: center; justify-content: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         
-        .mode-switch { display: flex; background: #111; border: 1px solid #333; border-radius: 50px; padding: 4px; margin-bottom: 25px; }
-        .mode-switch button { border: none; padding: 8px 25px; border-radius: 50px; font-size: 0.8rem; background: none; color: #666; font-weight: bold; transition: 0.3s; }
+        .mode-switch { display: flex; background: #111; border: 1px solid #333; border-radius: 50px; padding: 4px; margin-bottom: 20px; }
+        .mode-switch button { border: none; padding: 8px 30px; border-radius: 50px; font-size: 0.85rem; background: none; color: #666; font-weight: bold; transition: 0.3s; }
         .mode-switch button.active { background: var(--gold); color: #000; box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3); }
 
-        .custom-area { width: 90%; max-width: 340px; display: none; flex-direction: column; }
+        .custom-area { width: 90%; max-width: 340px; display: none; flex-direction: column; margin-top: 10px; }
         .custom-area.show { display: flex; }
         
         .input-group { display: flex; gap: 8px; margin-bottom: 15px; }
-        .input-group input { flex: 1; background: #111; border: 1px solid #444; color: #fff; padding: 12px; border-radius: 12px; font-size: 0.9rem; }
-        .input-group button { background: var(--gold); border: none; padding: 0 15px; border-radius: 12px; font-weight: bold; }
+        .input-group input { flex: 1; background: #111; border: 1px solid #444; color: #fff; padding: 12px; border-radius: 12px; font-size: 0.9rem; outline: none; }
+        .input-group input:focus { border-color: var(--gold); }
+        .input-group button { background: var(--gold); border: none; padding: 0 18px; border-radius: 12px; font-weight: bold; font-size: 1.2rem; }
 
-        .cmd-list { background: rgba(255,255,255,0.03); border-radius: 15px; padding: 5px; max-height: 200px; overflow-y: auto; border: 1px solid #222; }
+        .cmd-list { background: rgba(255,255,255,0.03); border-radius: 15px; padding: 5px; max-height: 180px; overflow-y: auto; border: 1px solid #222; }
         .cmd-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; border-bottom: 1px solid #222; font-size: 0.85rem; color: #bbb; }
         .cmd-item:last-child { border: none; }
         .del-btn { color: #ed5565; background: none; border: none; font-size: 1.1rem; padding: 0 5px; }
 
-        .generate-btn, .game-btn { background: var(--gold); color: #000; border: none; padding: 15px 60px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 15px; letter-spacing: 3px; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2); }
+        .generate-btn, .game-btn { background: var(--gold); color: #000; border: none; padding: 16px 60px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 10px; letter-spacing: 3px; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2); }
         
         @keyframes shake-anim { 0%, 100% {transform: translateX(0)} 20% {transform: translateX(10px)} 40% {transform: translateX(-10px)} }
         .shaking { animation: shake-anim 0.3s infinite; }
@@ -84,8 +85,8 @@
     </nav>
 
     <section id="home-page" class="page active">
-        <h1 style="font-size: 3.5rem; color: var(--gold); margin-top: 12vh; letter-spacing: 12px; text-shadow: 0 5px 15px rgba(212,175,55,0.2);">BAR 🍸</h1>
-        <div style="border: 1px solid #333; padding: 40px 30px; border-radius: 25px; text-align: center; background: rgba(255,255,255,0.02); width: 80%; max-width: 300px;">
+        <h1 style="font-size: 3.5rem; color: var(--gold); margin-top: 10vh; letter-spacing: 12px; text-shadow: 0 5px 15px rgba(212,175,55,0.2);">BAR 🍸</h1>
+        <div style="border: 1px solid #333; padding: 40px 30px; border-radius: 25px; text-align: center; background: rgba(255,255,255,0.02); width: 80%; max-width: 300px; margin-top: 20px;">
             <p style="color: #666; font-size: 0.6rem; letter-spacing: 3px; margin: 0;">MANAGER'S CHOICE</p>
             <div id="ds-zh" style="font-size: 1.8rem; color: var(--gold); font-weight: bold; margin: 15px 0;">---</div>
             <p id="ds-en" style="color: #555; font-style: italic; font-size: 0.8rem;">Ready for tonight?</p>
@@ -111,7 +112,7 @@
                 <button onclick="addCmd()">+</button>
             </div>
             <div id="cmd-list" class="cmd-list"></div>
-            <button onclick="clearAll()" style="color:var(--gold); background:none; border:none; font-size:0.75rem; margin-top:10px; opacity:0.6;">清空所有自訂指令</button>
+            <button onclick="clearAll()" style="color:var(--gold); background:none; border:none; font-size:0.75rem; margin-top:15px; opacity:0.6; width: 100%;">清空所有自訂指令</button>
         </div>
     </section>
 
@@ -153,12 +154,12 @@
             {zh:"海風",en:"Sea Breeze",base:"伏特加",str:"輕微",flav:"果香",meth:"直調",glass:"高球杯",ing:["伏特加","蔓越莓汁","葡萄柚汁"],tip:"這酒的口感就像它的名字。微苦、微酸且涼爽，是一杯即便你不常喝酒，也能輕易在海邊愛上的作品。"},
             {zh:"血腥瑪麗",en:"Bloody Mary",base:"伏特加",str:"中等",flav:"鹹辣",meth:"滾動",glass:"高球杯",ing:["伏特加","番茄汁","香辣醬","黑胡椒"],tip:"號稱是全世界最複雜的調酒，甚至是『解酒良藥』。有人說是液態沙拉，適合在宿醉的早午餐時段細細品嚐。"},
             // Brandy
-            {zh:"側車",en:"Sidecar",base:"白蘭地",str:"中等",flav:"酸甜",meth:"搖盪",glass:"馬丁尼杯",ing:["白蘭地 50ml","橙酒 20ml","檸檬汁 20ml"],tip:"這是白蘭地調酒中的『完美比例』。名字來源於一戰時期常用的側掛摩托車，象徵著古典白蘭地的速度與優雅。"},
+            {zh:"側車",en:"Sidecar",base:"白蘭地",str:"中等",flav:"酸甜",meth:"搖盪",glass:"馬丁尼杯",ing:["白蘭地 50ml","橙酒 20ml","檸檬汁 20ml"],tip:"這是白蘭地調酒中的『完美比例』。名字來源於一戰時期常用的側掛摩托車，象徵著古典白蘭地的優雅。"},
             {zh:"亞歷山大",en:"Alexander",base:"白蘭地",str:"中等",flav:"奶香",meth:"搖盪",glass:"馬丁尼杯",ing:["白蘭地","可可酒","鮮奶油"],tip:"1922年為瑪麗公主的婚禮而設計。它就像一杯帶酒精的可可奶昔，絲滑細緻，是專屬成人的深夜甜點。"},
             {zh:"薩澤拉克",en:"Sazerac",base:"白蘭地",str:"強烈",flav:"草本",meth:"攪拌",glass:"古典杯",ing:["白蘭地","艾碧斯","苦精"],tip:"誕生於紐奧良，被公認為世界第一杯雞尾酒。杯壁那抹淡淡的艾碧斯香氣，是這杯酒高貴、神祕且不可取代的靈魂。"},
             {zh:"馬蹄",en:"Horse's Neck",base:"白蘭地",str:"輕微",flav:"清爽",meth:"直調",glass:"高球杯",ing:["白蘭地","薑汁汽水"],tip:"亮點在於那條長到誇張、捲旋而下的檸檬皮，遠看就像馬脖子。口感乾脆利落，是白蘭地最平易近人的喝法。"},
             {zh:"香榭麗舍",en:"Champs-Élysées",base:"白蘭地",str:"強烈",flav:"草本",meth:"搖盪",glass:"馬丁尼杯",ing:["白蘭地","黃夏翠絲","檸檬汁"],tip:"法式的極致浪漫。草本酒之王『夏翠絲』與白蘭地的碰撞，口感高貴且層次分明，彷彿深夜漫步在巴黎街頭。"},
-            {zh:"床第之間",en:"Between Sheets",base:"白蘭地",str:"強烈",flav:"酸甜",meth:"搖盪",glass:"馬丁尼杯",ing:["白蘭地","蘭姆酒","橙酒"],tip:"一個極具挑逗的名字。白蘭地與蘭姆酒兩大烈酒互相拉扯，是一杯屬於夜晚、極具侵略性且充滿危險魅力的調酒。"}
+            {zh:"床第之間",en:"Between Sheets",base:"白蘭地",str:"強烈",flav:"酸甜",meth:"搖盪",glass:"馬丁尼杯",ing:["白蘭地","蘭姆酒","橙酒"],tip:"這是一杯屬於夜晚、極具侵略性且充滿危險魅力的調酒。"}
         ];
 
         let customCmds = JSON.parse(localStorage.getItem('party_custom_cmds')) || [];
@@ -213,7 +214,7 @@
 
         function rollGame() {
             const d = document.getElementById('game-display'); 
-            let p = mode==='default' ? ["指定一人喝 1 杯","左右兩邊乾杯","手機電量最低的人喝","不准說「你我他」","跟對面的人喝交杯酒","全場最清醒的人喝","手機末碼最大的人喝","輸的人做 10 個伏地挺身"] : customCmds;
+            let p = mode==='default' ? ["指定一人喝 1 杯","左右兩邊乾杯","手機電量最低的人喝","全喝","跟對面的人喝交杯酒","全場最清醒的人喝","手機末三碼最大的人喝","輸的人做 5 個伏地挺身"] : customCmds;
             if(!p.length){ d.innerText="請先新增指令"; return; }
             d.innerText="DRAWING..."; setTimeout(()=>{d.innerText=p[Math.floor(Math.random()*p.length)];},300);
         }
