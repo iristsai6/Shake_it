@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bar Gemini: 派對與調酒</title>
+    <title>走跳酒Bar</title>
     <style>
         :root {
             --gold: #d4af37;
@@ -143,7 +143,7 @@
     </nav>
 
     <section id="home-page" class="page active">
-        <h1 class="home-title">BAR GEMINI</h1>
+        <h1 class="home-title">BAR 🍸</h1>
         <div class="special-box">
             <p style="font-size: 0.7rem; color: #555; letter-spacing: 2px; margin-bottom: 15px;">MANAGER'S PICK / 今日推薦</p>
             <div id="daily-special-zh" style="font-size: 1.6rem; margin: 5px 0; font-weight: bold; color: var(--gold);">---</div>
@@ -175,10 +175,10 @@
     <script>
         const database = [
             { zh: "馬丁尼", en: "Martini", base: "琴酒", str: "強烈", flav: "辛辣", ing: ["琴酒 60ml", "辛口苦艾酒 10ml", "橄欖或檸檬皮"], tip: "被譽為「雞尾酒之王」，海明威曾自誇能連續喝下好幾杯特乾馬丁尼。" },
-            { zh: "內格羅尼", en: "Negroni", base: "琴酒", str: "強烈", flav: "苦甜", ing: ["琴酒 30ml", "金巴利 30ml", "紅苦艾酒 30ml"], tip: "起源於義大利伯爵的任性要求，是目前全球酒吧中最受歡迎的經典調酒之一。" },
+            { zh: "尼格羅尼", en: "Negroni", base: "琴酒", str: "強烈", flav: "苦甜", ing: ["琴酒 30ml", "金巴利 30ml", "紅苦艾酒 30ml"], tip: "起源於義大利伯爵的任性要求，是目前全球酒吧中最受歡迎的經典調酒之一。" },
             { zh: "琴蕾", en: "Gimlet", base: "琴酒", str: "中等", flav: "酸甜", ing: ["琴酒 45ml", "新鮮檸檬汁 15ml", "糖漿 15ml"], tip: "最初是為了讓英國水兵補充維他命C以預防敗血症，沒想到意外地好喝。" },
             { zh: "白色佳人", en: "White Lady", base: "琴酒", str: "中等", flav: "酸甜", ing: ["琴酒 40ml", "橙酒 30ml", "檸檬汁 20ml"], tip: "這杯酒的發明者也發明了 Sidecar，它是經典「酸味系列」調酒的優雅代表。" },
-            { zh: "最後一句話", en: "Last Word", base: "琴酒", str: "強烈", flav: "草本", ing: ["琴酒 22.5ml", "夏翠絲綠酒 22.5ml", "黑櫻桃酒 22.5ml", "萊姆汁 22.5ml"], tip: "二戰後一度消失，2004年才在西雅圖被重新挖掘，草本風味極其複雜。" },
+            { zh: "臨別一語", en: "Last Word", base: "琴酒", str: "強烈", flav: "草本", ing: ["琴酒 22.5ml", "夏翠絲綠酒 22.5ml", "黑櫻桃酒 22.5ml", "萊姆汁 22.5ml"], tip: "二戰後一度消失，2004年才在西雅圖被重新挖掘，草本風味極其複雜。" },
             { zh: "琴費斯", en: "Gin Fizz", base: "琴酒", str: "輕微", flav: "清爽", ing: ["琴酒 45ml", "檸檬汁 30ml", "糖漿 10ml", "蘇打水 滿杯"], tip: "19世紀末在紐奧良極受歡迎，據說當時的酒吧需要僱用十幾個人輪流搖盪才應付得了訂單。" },
             { zh: "古典雞尾酒", en: "Old Fashioned", base: "威士忌", str: "強烈", flav: "甜中帶苦", ing: ["波本威士忌 45ml", "方糖 1塊", "安格仕苦精 2滴"], tip: "它是「雞尾酒」最初的樣貌，如果想品嚐威士忌最純粹的層次，點這杯準沒錯。" },
             { zh: "威士忌酸酒", en: "Whiskey Sour", base: "威士忌", str: "中等", flav: "酸甜", ing: ["威士忌 45ml", "檸檬汁 30ml", "糖漿 15ml", "蛋白 (可選)"], tip: "傳統做法會加入蛋白，搖盪出如絲緞般的綿密泡沫，口感層次瞬間升級。" },
@@ -189,17 +189,17 @@
             { zh: "莫希托", en: "Mojito", base: "蘭姆酒", str: "輕微", flav: "清爽", ing: ["白蘭姆酒 45ml", "新鮮薄荷葉", "檸檬汁", "糖漿", "蘇打水"], tip: "海明威在古巴的最愛，薄荷與蘭姆酒的組合是抗暑的最強武器。" },
             { zh: "黛綺莉", en: "Daiquiri", base: "蘭姆酒", str: "中等", flav: "酸甜", ing: ["白蘭姆酒 60ml", "萊姆汁 22.5ml", "糖漿 22.5ml"], tip: "這杯酒是調酒師的「基本功考驗」，比例差一點點，整杯酒的味道就會天差地遠。" },
             { zh: "月黑風高", en: "Dark 'N' Stormy", base: "蘭姆酒", str: "中等", flav: "辛辣清爽", ing: ["黑蘭姆酒 60ml", "薑汁啤酒 滿杯", "萊姆角"], tip: "這杯酒的名字是註冊商標，必須使用 Goslings 蘭姆酒調製才能合法稱作這個名字。" },
-            { zh: "麥邁", en: "Mai Tai", base: "蘭姆酒", str: "強烈", flav: "果香堅果", ing: ["黑蘭姆酒 30ml", "白蘭姆酒 30ml", "橙酒 15ml", "杏仁糖漿 15ml"], tip: "在塔希提語中意為「絕妙」，它是 Tiki 雞尾酒文化中最具代表性的圖騰。" },
+            { zh: "邁泰", en: "Mai Tai", base: "蘭姆酒", str: "強烈", flav: "果香堅果", ing: ["黑蘭姆酒 30ml", "白蘭姆酒 30ml", "橙酒 15ml", "杏仁糖漿 15ml"], tip: "在塔希提語中意為「絕妙」，它是 Tiki 雞尾酒文化中最具代表性的圖騰。" },
             { zh: "自由古巴", en: "Cuba Libre", base: "蘭姆酒", str: "輕微", flav: "清爽果香", ing: ["蘭姆酒 50ml", "可樂 滿杯", "萊姆角"], tip: "慶祝古巴獨立的酒款。雖然配方簡單，但擠入新鮮萊姆角是靈魂所在。" },
-            { zh: "皮納卡拉達", en: "Piña Colada", base: "蘭姆酒", str: "輕微", flav: "熱帶甜感", ing: ["蘭姆酒 50ml", "鳳梨汁 50ml", "椰奶 50ml"], tip: "波多黎各的國酒，喝一口就像瞬間移動到充滿陽光的加勒比海沙灘。" },
+            { zh: "Piña Colada", en: "Piña Colada", base: "蘭姆酒", str: "輕微", flav: "熱帶甜感", ing: ["蘭姆酒 50ml", "鳳梨汁 50ml", "椰奶 50ml"], tip: "波多黎各的國酒，喝一口就像瞬間移動到充滿陽光的加勒比海沙灘。" },
             { zh: "瑪格麗特", en: "Margarita", base: "龍舌蘭", str: "中等", flav: "酸鹹", ing: ["龍舌蘭 50ml", "橙酒 20ml", "檸檬汁 15ml"], tip: "杯緣的鹽圈不僅是裝飾，更能平衡龍舌蘭的草本味並提升果汁的甜感。" },
-            { zh: "特基拉日出", en: "Tequila Sunrise", base: "龍舌蘭", str: "輕微", flav: "果香", ing: ["龍舌蘭 45ml", "柳橙汁 90ml", "紅石榴糖漿 15ml"], tip: "由老鷹樂團(Eagles)同名歌曲捧紅，色彩層次就像夏日清晨的第一道曙光。" },
+            { zh: "Tequila Sunrise", en: "Tequila Sunrise", base: "龍舌蘭", str: "輕微", flav: "果香", ing: ["龍舌蘭 45ml", "柳橙汁 90ml", "紅石榴糖漿 15ml"], tip: "由老鷹樂團(Eagles)同名歌曲捧紅，色彩層次就像夏日清晨的第一道曙光。" },
             { zh: "帕羅瑪", en: "Paloma", base: "龍舌蘭", str: "輕微", flav: "葡萄柚酸甜", ing: ["龍舌蘭 50ml", "葡萄柚蘇打 滿杯", "萊姆汁", "鹽圈"], tip: "在墨西哥，這杯酒的人氣甚至超越瑪格麗特，是當地人最日常的消暑良伴。" },
             { zh: "龍舌蘭馬丁尼", en: "Tequini", base: "龍舌蘭", str: "強烈", flav: "辛辣", ing: ["龍舌蘭 60ml", "辛口苦艾酒 15ml", "苦精 1滴"], tip: "將琴酒換成龍舌蘭，帶來更多大地的氣息與龍舌蘭獨有的辛香顆粒感。" },
             { zh: "鬥牛士", en: "Matador", base: "龍舌蘭", str: "輕微", flav: "清爽酸甜", ing: ["龍舌蘭 30ml", "鳳梨汁 60ml", "萊姆汁 15ml"], tip: "鳳梨與龍舌蘭是天生一對，比瑪格麗特更溫和，適合當作夜晚的起點。" },
             { zh: "神之使者", en: "El Diablo", base: "龍舌蘭", str: "中等", flav: "薑汁果香", ing: ["龍舌蘭 45ml", "黑醋栗利口酒 15ml", "萊姆汁", "薑汁啤酒"], tip: "雖然名字叫「惡魔」，但喝起來卻非常順口，黑醋栗的甜美掩蓋了酒精的鋒芒。" },
             { zh: "莫斯科騾子", en: "Moscow Mule", base: "伏特加", str: "輕微", flav: "薑汁辛辣", ing: ["伏特加 45ml", "萊姆汁 15ml", "薑汁啤酒 滿杯"], tip: "銅杯盛裝是它的標誌，能讓調酒保持極致低溫，讓薑汁的辛辣更清脆。" },
-            { zh: "濃縮咖啡馬丁尼", en: "Espresso Martini", base: "伏特加", str: "中等", flav: "咖啡濃郁", ing: ["伏特加 50ml", "濃縮咖啡 30ml", "咖啡利口酒 15ml"], tip: "一位名模要求調酒師給她一杯「能吵醒她，再灌醉她」的酒，這杯傳奇就此誕生。" },
+            { zh: "咖啡馬丁尼", en: "Espresso Martini", base: "伏特加", str: "中等", flav: "咖啡濃郁", ing: ["伏特加 50ml", "濃縮咖啡 30ml", "咖啡利口酒 15ml"], tip: "一位名模要求調酒師給她一杯「能吵醒她，再灌醉她」的酒，這杯傳奇就此誕生。" },
             { zh: "長島冰茶", en: "Long Island Iced Tea", base: "伏特加", str: "強烈", flav: "酸甜", ing: ["五大基酒各 15ml", "橙酒 15ml", "檸檬汁", "可樂"], tip: "雖然外表像茶，但混合了五種基酒，後勁十足，是著名的派對「終結者」。" },
             { zh: "柯夢波丹", en: "Cosmopolitan", base: "伏特加", str: "中等", flav: "果香酸甜", ing: ["伏特加 40ml", "橙酒 15ml", "蔓越莓汁 30ml", "檸檬汁"], tip: "《慾望城市》凱莉的最愛。完美的柯夢波丹應該呈現優雅的粉紅色而非深紅色。" },
             { zh: "海風", en: "Sea Breeze", base: "伏特加", str: "輕微", flav: "清爽果香", ing: ["伏特加 40ml", "蔓越莓汁 120ml", "葡萄柚汁 30ml"], tip: "80年代最受歡迎的沙灘酒款，鹹鹹的海風與葡萄柚的微苦是絕佳搭配。" },
