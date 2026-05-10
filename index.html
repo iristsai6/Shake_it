@@ -221,11 +221,11 @@ nav button.active{border-color:var(--gold);color:var(--gold);background:rgba(232
     <button class="base-btn" onclick="selectBase(this,'vodka')">❄️ 伏特加</button>
     <button class="base-btn" onclick="selectBase(this,'brandy')">🍷 白蘭地</button>
   </div>
-  <!-- div class="guide-list" id="guide-list"></div>
-  <p class="section-title">不知道喝什麼？問 Claude</p>
+  <div class="guide-list" id="guide-list"></div>
+  <!-- p class="section-title">不知道喝什麼？問 Claude</p -->
   <div id="guide-claude-resp" style="display:none;width:100%;max-width:440px;">
     <div class="claude-response" id="guide-resp-text"></div>
-  </div -->
+  </div>
   <!--div class="ask-bar">
     <input type="text" id="guide-input" placeholder="例如：我怕苦、喜歡果香…">
     <button onclick="askClaudeGuide()">問 Claude</button>
@@ -344,7 +344,7 @@ const BAR_INFO = {
   speakeasy:{icon:"🚪",name:"Speakeasy",sub:"隱藏酒吧 · 禁酒令情懷",desc:"藏在書架後、理髮廳裡或地下室中。禁酒令年代的神秘氛圍，入場通常需要密碼或預約。酒單考究、氣氛神秘，是送給懂得人的禮物。",vibes:["隱密入口","預約制","復古調酒","爵士音樂","限量座位"],mapQ:"speakeasy 隱藏酒吧 高雄"}
 };
 
-const RULES = ["喝酒不開車，開車不喝酒","🔞未滿十八請勿飲酒","先把前任封鎖🥲","理性飲酒，感性品酒","保護錢包小心肝❤️","先吃點東西保護胃","設定今晚的上限（沒有極限是騙人的）","手機充好電，但別打給前任","計畫好怎麼回家，不要酒後開車！","節奏放慢點，享受不同風味帶來的體驗","感覺有點頭暈就躲個酒水遁一下","喝前確認酒的 ABV，心裡有數"];
+const RULES = ["喝酒不開車，開車不喝酒","🔞未滿十八請勿飲酒","先把前任封鎖🥲","理性飲酒，感性品酒","保護錢包小心肝❤️","先吃點東西保護胃","設定今晚的上限!沒有極限是騙人的!","手機充好電，但別打給前任","計畫好怎麼回家，不要酒後開車！","節奏放慢點，享受不同風味帶來的體驗","感覺有點頭暈就躲個酒水遁一下","喝前確認酒的 ABV，心裡有數"];
 
 // ======================== STATE ========================
 let drinkCount = 0;
