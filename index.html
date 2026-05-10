@@ -164,9 +164,9 @@ nav button.active{border-color:var(--gold);color:var(--gold);background:rgba(232
 
 <nav>
   <button onclick="showPage('home-page')" id="nav-home" class="active">HOME</button>
-  <button onclick="showPage('guide-page')" id="nav-guide">點酒</button>
-  <button onclick="showPage('tracker-page')" id="nav-tracker">計數</button>
-  <button onclick="showPage('bar-page')" id="nav-bar">酒吧</button>
+  <button onclick="showPage('guide-page')" id="nav-guide">GUIDE</button>
+  <button onclick="showPage('tracker-page')" id="nav-tracker">TRACKER</button>
+  <button onclick="showPage('bar-page')" id="nav-bar">BAR</button>
 </nav>
 
 <!-- ========== HOME ========== -->
@@ -221,15 +221,15 @@ nav button.active{border-color:var(--gold);color:var(--gold);background:rgba(232
     <button class="base-btn" onclick="selectBase(this,'vodka')">❄️ 伏特加</button>
     <button class="base-btn" onclick="selectBase(this,'brandy')">🍷 白蘭地</button>
   </div>
-  <div class="guide-list" id="guide-list"></div>
+  <!-- div class="guide-list" id="guide-list"></div>
   <p class="section-title">不知道喝什麼？問 Claude</p>
   <div id="guide-claude-resp" style="display:none;width:100%;max-width:440px;">
     <div class="claude-response" id="guide-resp-text"></div>
-  </div>
-  <div class="ask-bar">
+  </div -->
+  <!--div class="ask-bar">
     <input type="text" id="guide-input" placeholder="例如：我怕苦、喜歡果香…">
     <button onclick="askClaudeGuide()">問 Claude</button>
-  </div>
+  </div -->
 </section>
 
 <!-- ========== TRACKER ========== -->
@@ -290,7 +290,7 @@ const DB = [
   {zh:"琴費斯",en:"Gin Fizz",base:"gin",bl:"琴酒",str:"輕微",flav:"清爽",meth:"搖盪",glass:"高球杯",ing:["琴酒 45ml","檸檬汁 30ml","糖漿 15ml","蘇打水適量"],tip:"氣泡感在舌尖炸裂就像夏日及時雨，是最經典的消暑救贖。",who:"剛接觸調酒、喜歡氣泡感的你"},
   {zh:"古典",en:"Old Fashioned",base:"whisky",bl:"威士忌",str:"強烈",flav:"苦甜",meth:"攪拌",glass:"古典杯",ing:["波本威士忌 45ml","方糖 1顆","安格斯特拉苦精 2dash","柳橙皮"],tip:"雞尾酒的始祖。方糖慢融的過程中感受酒的層次演化，是用來「品」而不是喝乾的酒。",who:"老靈魂、想認識威士忌的你"},
   {zh:"威士忌酸酒",en:"Whiskey Sour",base:"whisky",bl:"威士忌",str:"中等",flav:"酸甜",meth:"搖盪",glass:"古典杯",ing:["威士忌 45ml","檸檬汁 30ml","糖漿 15ml","蛋白 1顆"],tip:"蛋白讓整杯酒穿上絲絨外衣，在酸甜之間尋找威士忌木質調，滑順到讓你忘記是高濃度烈酒。",who:"有些基礎、想探索威士忌柔軟面的你"},
-  {zh:"曼哈頓",en:"Manhattan",base:"whisky",bl:"威士忌",str:"強烈",flav:"濃郁",meth:"攪拌",glass:"馬丁尼杯",ing:["裸麥威士忌 60ml","紅苦艾酒 30ml","安格斯特拉苦精 2dash"],tip:"雞尾酒之后。深邃濃郁帶著草本氣息，象徵19世紀紐約上流社會的繁華與迷人。",who:"追求深邃複雜、不妥協的老靈魂"},
+  {zh:"曼哈頓",en:"Manhattan",base:"whisky",bl:"威士忌",str:"強烈",flav:"濃郁",meth:"攪拌",glass:"馬丁尼杯",ing:["裸麥威士忌 60ml","紅苦艾酒 30ml","安格斯特拉苦精 2dash"],tip:"雞尾酒之后。深邃濃郁帶著草本氣息，象徵19世紀紐約上流社會的繁華與迷人。",who:"追求深邃複雜、不妥協的老靈魂 Iris的最愛"},
   {zh:"盤尼西林",en:"Penicillin",base:"whisky",bl:"威士忌",str:"中等",flav:"煙燻",meth:"搖盪",glass:"古典杯",ing:["調和蘇格蘭威士忌 45ml","艾雷島威士忌 7.5ml（漂浮）","檸檬汁 22.5ml","蜂蜜薑汁糖漿 22.5ml"],tip:"煙燻泥煤與薑汁辛辣在喉嚨撞擊，像寒冬裡的一把火，專治靈魂的疲憊。",who:"威士忌老手、愛複雜煙燻層次的你"},
   {zh:"薄荷茱莉普",en:"Mint Julep",base:"whisky",bl:"威士忌",str:"中等",flav:"清爽",meth:"直調",glass:"銀杯",ing:["波本威士忌 60ml","薄荷葉 8-10片","糖漿 15ml","碎冰"],tip:"肯塔基賽馬會的官方飲品。大量碎冰在銀杯上結起白霜，薄荷與波本達到野性的契合。",who:"喜歡清爽又有酒感、愛戶外氛圍的你"},
   {zh:"莫希托",en:"Mojito",base:"rum",bl:"蘭姆酒",str:"輕微",flav:"清爽",meth:"直調",glass:"高球杯",ing:["白蘭姆酒 45ml","萊姆汁 30ml","糖漿 15ml","薄荷葉 8片","蘇打水適量"],tip:"海明威在哈瓦那留下的經典。薄荷要拍碎而不切斷，讓精油滲入碳酸，每一口都是古巴的海風。",who:"不常喝酒的新手、喜歡清爽的你"},
@@ -344,7 +344,7 @@ const BAR_INFO = {
   speakeasy:{icon:"🚪",name:"Speakeasy",sub:"隱藏酒吧 · 禁酒令情懷",desc:"藏在書架後、理髮廳裡或地下室中。禁酒令年代的神秘氛圍，入場通常需要密碼或預約。酒單考究、氣氛神秘，是送給懂得人的禮物。",vibes:["隱密入口","預約制","復古調酒","爵士音樂","限量座位"],mapQ:"speakeasy 隱藏酒吧 高雄"}
 };
 
-const RULES = ["先喝水再喝酒，一杯酒配一杯水","空腹喝酒等於加速進天堂，先吃點東西","設定今晚的杯數上限並告訴朋友","手機充好電，家裡電話備用存好","計畫好怎麼回家，不要酒後開車","不要一口悶，節奏放慢","感覺有點頭暈就停，身體在說話","喝前確認酒的 ABV，強弱心裡有數"];
+const RULES = ["喝酒不開車，開車不喝酒","🔞未滿十八請勿飲酒","先把前任封鎖🥲","理性飲酒，感性品酒","保護錢包小心肝❤️","先吃點東西保護胃","設定今晚的上限（沒有極限是騙人的）","手機充好電，但別打給前任","計畫好怎麼回家，不要酒後開車！","節奏放慢點，享受不同風味帶來的體驗","感覺有點頭暈就躲個酒水遁一下","喝前確認酒的 ABV，心裡有數"];
 
 // ======================== STATE ========================
 let drinkCount = 0;
